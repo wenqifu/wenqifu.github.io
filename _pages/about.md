@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I'm Qifu (Danny) Wen. I spent my childhood in Shanghai and Berkely, California. Although I love playing basketball, I admit I'm not the best at it.
+I'm Qifu (Danny) Wen. I spent my childhood in Shanghai and Berkeley, California. Although I love playing basketball, I admit I'm not the best at it.
 
 After earning a Bachelor's degree in Mathematics from NYU Shanghai, I continued my academic journey at Boston University, where I am currently pursuing a Master's degree in Computer Science.
 
