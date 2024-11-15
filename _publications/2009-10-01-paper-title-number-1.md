@@ -5,7 +5,6 @@ category: manuscripts
 # permalink: /publication/2023-10-01-StatZ-Evaluating-Conversational-Interfaces
 excerpt: 'This study explores the impact of AI tools on programming productivity, comparing modern conversational interfaces with traditional statistical tools.'
 date: 2023-10-01
-venue: 'Journal of Human-Computer Interaction'
 # paperurl: 'http://academicpages.github.io/files/statz-paper.pdf'
 citation: 'Wen, Qifu, & Rawassizadeh, Reza. (2023). "StatZ: Evaluating Modern Conversational Interfaces Versus Traditional Statistical Tools in Data Analysis." <i>Manuscript</i>.'
 ---
