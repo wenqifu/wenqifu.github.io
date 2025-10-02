@@ -1,11 +1,11 @@
 ### Hi there 👋
 
-I'm Qifu (Danny) Wen. I spent my childhood in Shanghai and Berkely, California. Although I love playing basketball, I admit I'm not the best at it.
+I'm Danny (Qifu) Wen. I spent my childhood in Shanghai, China and Berkeley, California.
 
-After earning a Bachelor's degree in Mathematics from NYU Shanghai, I continued my academic journey at Boston University, where I am currently pursuing a Master's degree in Computer Science.
+I hold a Bachelor's degree in Mathematics from NYU Shanghai, where I spent a year at the Courant Institute of Mathematical Sciences at NYU. I subsequently earned my Master's degree in Computer Science from Boston University, where I currently work as a researcher specializing in machine learning.
 
-Growing up, I was fascinated by Physics, particularly captivated by Richard Feynman's lectures. I enjoy listening his audio lectures during my free time.
+My research focuses on machine learning and statistics. I have led two research projects resulting in publication in Q1 journal, including work on early stopping mechanisms for LLMs and ViTs. I regularly contribute to the academic community through submissions and peer reviews for leading machine learning conferences such as ICLR and ICRA. Looking ahead to doctoral studies, I aim to expand my research into computer vision and reinforcement learning.
 
-My research interests are centered around Machine Learning and Statistics. Currently, I am working on a research project that compares traditional statistical software like SPSS, SAS, and JMP with a Python-based conversational agent. The goal is to determine if the conversational agent can make life easier for its users.
+Beyond my primary research areas, I maintain broad scientific interests rooted in a longstanding fascination with physics. Inspired by Richard Feynman's lectures, which I continue to enjoy in my personal time. These interests extend to quantum computing, evolutionary algorithms, and stochastic differential equations.
 
-I'm also interested in Quantum Computing, Evolutionary Algorithms and Stochastic Differential Equations. They seemed really really really cool. 
+I welcome opportunities for collaboration across diverse research areas. Please feel free to connect via email or LinkedIn to discuss potential projects.
