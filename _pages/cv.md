@@ -11,7 +11,7 @@ redirect_from:
 
 ## Education
 **Boston University** — M.Sc. in Computer Science (GPA 3.83)  
-09/2023 - 05/2025 (Expected)  
+09/2023 - 05/2025 
 
 **New York University** — B.Sc. in Mathematics  
 09/2019 - 05/2023  
@@ -25,7 +25,18 @@ redirect_from:
 
 ---
 
+## Publication
+**Supervisors and Collaborators:** Prof. Reza Rawassizadeh, Tahereh Javaheri, Eugene Pinsky  
 
+- Wen, Q., Zeng, X., Zhou, Z., Liu, S., Hosseinzadeh, M., & Rawassizadeh, R. (2025). *[GradES: Significantly Faster Training in Transformers with Gradient-Based Early Stopping](https://arxiv.org/abs/2509.01842)*. Submitted to ICLR 2026.  
+- Wen, Q., Kochhar, P., Zeyada, S., Javaheri, T., & Rawassizadeh, R. (2025). *[From Clicks to Conversations: Evaluating the Effectiveness of Conversational Agents in Statistical Analysis](https://www.arxiv.org/abs/2502.08114)*. *International Journal of Human-Computer Interaction* (Accepted).  
+- Liu, S., Wen, Q., Chen, X., Hu, X., & Su, N. (2025). *One Ocean, All Tasks: A Holistic Simulation Environment for Marine Robotics*. Submitted to ICRA 2026 (Under Review).  
+- Pinsky, E. & Wen, Q. (2025). *Estimation of Distribution Parameters by Mean Absolute Deviations of a Truncated Distribution Using Quantile Functions*. *Statistical Papers* (Under Review).  
+- Khedri, K., Wen, Q., & Rawassizadeh, R. (2025). *Pruning and Quantization Impact on Graph Neural Networks*. (Manuscript).  
+- Pinsky, E. & Wen, Q. (2025). *[Simple Approximations and Interpretation of Pareto Index and Gini Coefficient Using Mean Absolute Deviations and Quantile Functions](https://www.mdpi.com/2225-1146/13/3/30)*. *Econometrics, 13(3), 30*.  
+- Longhitano, G., Wen, Q., & Rawassizadeh, R. (2025). *Tiny-HAR: Extremely Resource-efficient Human Activity Recognition Model Compression*. (Manuscript).  
+
+---
 
 ## Work Experience
 
