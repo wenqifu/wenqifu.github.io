@@ -96,7 +96,7 @@ Eugene Pinsky<sup>*</sup>, **Qifu Wen**<sup>*</sup>
 
 # 💻 Research Experience
 
-<div class='exp-box'> <div class='exp-box-image'><div><img src='images/bu_logo.png' alt="sym" width="100%"></div></div>
+<div class='exp-box'> <div class='exp-box-image'><div><img src='images/bu_logo.png' alt="sym" width="80px"></div></div>
 <div class='exp-box-text' markdown="1">
 
 [Boston University](https://www.bu.edu/), USA
@@ -108,7 +108,7 @@ Eugene Pinsky<sup>*</sup>, **Qifu Wen**<sup>*</sup>
 </div>
 </div>
 
-<div class='exp-box'> <div class='exp-box-image'><div><img src='images/bu_logo.png' alt="sym" width="100%"></div></div>
+<div class='exp-box'> <div class='exp-box-image'><div><img src='images/bu_logo.png' alt="sym" width="80px"></div></div>
 <div class='exp-box-text' markdown="1">
 
 [Boston University](https://www.bu.edu/), USA
@@ -120,7 +120,7 @@ Eugene Pinsky<sup>*</sup>, **Qifu Wen**<sup>*</sup>
 </div>
 </div>
 
-<div class='exp-box'> <div class='exp-box-image'><div><img src='images/ecnu_logo.png' alt="sym" width="100%"></div></div>
+<div class='exp-box'> <div class='exp-box-image'><div><img src='images/ecnu_logo.png' alt="sym" width="80px"></div></div>
 <div class='exp-box-text' markdown="1">
 
 [East China Normal University](https://www.ecnu.edu.cn/), China
