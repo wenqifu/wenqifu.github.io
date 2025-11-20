@@ -19,7 +19,7 @@ redirect_from:
 
 # 👤 About Me 
 
-I am a Visiting Researcher and Master's student in Computer Science at [Boston University](https://www.bu.edu/), working with [Prof. Reza Rawassizadeh](https://sites.google.com/view/rezar) and [Prof. Eugene Pinsky](https://scholar.google.com/citations?user=b90sclMAAAAJ&hl=en). I received my Bachelor's degree in Mathematics from [NYU Shanghai](https://shanghai.nyu.edu/) and the [Courant Institute](https://cims.nyu.edu/dynamic/). My research focuses on making AI more efficient and accessible through novel optimization methods for transformers, neural network compression, and human-centered AI interfaces. In my spare time, I enjoy basketball, heavy compound lifting and hiking. 
+I am a Visiting Researcher and Master's student in Computer Science at [Boston University](https://www.bu.edu/), working with [Prof. Reza Rawassizadeh](https://sites.google.com/view/rezar) and [Prof. Eugene Pinsky](https://scholar.google.com/citations?user=b90sclMAAAAJ&hl=en). I received my Bachelor's degree in Mathematics from [NYU Shanghai](https://shanghai.nyu.edu/) and the [Courant Institute](https://cims.nyu.edu/dynamic/). My research focuses on machine learning system optimization, applied mathematics and computer vision, I'm interested in rienforcment learning, fedrated learning in the future. In my spare time, I enjoy basketball, heavy compound lifting and hiking. 
 
 # 🔥 News
 - *2025.11*: &nbsp;📝 GradES paper on transformer acceleration submitted to MLSys 2026
@@ -34,7 +34,7 @@ I am a Visiting Researcher and Master's student in Computer Science at [Boston U
 
 GradES: Significantly Faster Training in Transformers with Gradient-Based Early Stopping
 
-**Qifu Wen**, Xi Zeng, Zihan Zhou, Shuaijun Liu, Mehdi Hosseinzadeh, Ningxin Su, Reza Rawassizadeh
+**Qifu Wen**<sup>*</sup>, Xi Zeng<sup>*</sup>, Zihan Zhou, Shuaijun Liu, Mehdi Hosseinzadeh, Ningxin Su, Reza Rawassizadeh
 
 [![GitHub](https://img.shields.io/badge/GitHub-Code-fedcba?style=flat&logo=github)](https://github.com/wenqifu/GradES)![](https://img.shields.io/github/stars/wenqifu/GradES?style=social) [![arXiv](https://img.shields.io/badge/arXiv-2509.01842-b31b1b?style=flat&logo=arxiv)](https://arxiv.org/abs/2509.01842)
 
@@ -58,7 +58,7 @@ From Clicks to Conversations: Evaluating the Effectiveness of Conversational Age
 
 One Ocean, All Tasks: A Holistic Simulation Environment for Marine Robotics
 
-Shuaijun Liu, **Qifu Wen**, Xingheng Chen, Xuhang Hu, Ningxin Su
+Shuaijun Liu<sup>*</sup>, **Qifu Wen**<sup>*</sup>, Xingheng Chen, Xuhang Hu, Ningxin Su
 
 Under Review
 
@@ -82,7 +82,7 @@ Khatoon Khedri, **Qifu Wen**, Reza Rawassizadeh
 
 Simple Approximations and Interpretation of Pareto Index and Gini Coefficient Using Mean Absolute Deviations
 
-Eugene Pinsky, **Qifu Wen**
+Eugene Pinsky<sup>*</sup>, **Qifu Wen**<sup>*</sup>
 
 [![DOI](https://img.shields.io/badge/DOI-MDPI-fedcba?style=flat)](https://www.mdpi.com/2225-1146/13/3/30)
 
@@ -143,11 +143,9 @@ Eugene Pinsky, **Qifu Wen**
 
 # 🎖 Honors and Awards
 - *2024.09* Artificial Intelligence & Computer Vision Lab Student Research Grant, Boston University
-- *2023.05* Magna Cum Laude, New York University
 - *2022.12* Dean's List, NYU Shanghai
-- *2021.05* Mathematics Excellence Award, NYU Courant Institute
 
 # 💼 Skills
 - **Programming**: Python, R, SQL, MATLAB, LaTeX
-- **ML Frameworks**: PyTorch, TensorFlow, JAX, Scikit-learn
-- **Languages**: English (Fluent), Chinese (Native), Japanese (Conversational), French (Basic)
+- **ML Frameworks**: PyTorch, TensorFlow, Scikit-learn
+- **Languages**: English (Full Professional Fluency), Chinese (Native)
