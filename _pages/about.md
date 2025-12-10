@@ -19,7 +19,7 @@ redirect_from:
 
 # 👤 About Me 
 
-I am a Visiting Researcher and Master's student in Computer Science at [Boston University](https://www.bu.edu/), working with [Prof. Reza Rawassizadeh](https://sites.google.com/view/rezar) and [Prof. Eugene Pinsky](https://scholar.google.com/citations?user=b90sclMAAAAJ&hl=en). I received my Bachelor's degree in Mathematics from [NYU Shanghai](https://shanghai.nyu.edu/) and the [Courant Institute](https://cims.nyu.edu/dynamic/). My research focuses on machine learning system optimization, applied mathematics and computer vision, I'm interested in rienforcment learning, fedrated learning in the future. In my spare time, I enjoy basketball, heavy compound lifting and hiking. 
+I am a Visiting Researcher and Master's student in Computer Science at [Boston University](https://www.bu.edu/), working with [Prof. Reza Rawassizadeh](https://sites.google.com/view/rezar) and [Prof. Eugene Pinsky](https://scholar.google.com/citations?user=b90sclMAAAAJ&hl=en). I received my Bachelor's degree in Mathematics from [NYU Shanghai](https://shanghai.nyu.edu/) and the [Courant Institute](https://cims.nyu.edu/dynamic/). My research focuses on machine learning system optimization, applied mathematics and computer vision, I'm interested in reinforcement learning, federated learning in the future. In my spare time, I enjoy basketball, heavy compound lifting and hiking. 
 
 # 🔥 News
 - *2025.11*: &nbsp;📝 GradES paper on transformer acceleration submitted to MLSys 2026
