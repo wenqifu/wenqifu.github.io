@@ -35,4 +35,5 @@ I am a reviewer for ICML and MLSys. I am currently applying to PhD programs for 
 
 Outside of my research, I enjoy playing basketball, hiking and playing rimworld.
 
-Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about research or collaboration! Here is my [CV (English)](/assets/pdf/Research_CV_EN.pdf) | [CV (中文)](/assets/pdf/Research_CV_ZH.pdf).
+Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about research or collaboration!
+<!-- CV PDFs will be added soon: [CV (English)](/assets/pdf/Research_CV_EN.pdf) | [CV (中文)](/assets/pdf/Research_CV_ZH.pdf) -->
