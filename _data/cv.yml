@@ -28,12 +28,14 @@ cv:
       - company: Boston University, ML Group
         position: Visiting Researcher
         location: Boston, MA
-        start_date: 2025-01
-        end_date: present
+        start_date: 2025-05
+        end_date: 2026-04
         highlights:
-          - "Lead author on GradES (1.57–7.22× faster transformer fine-tuning); targeting NeurIPS 2026."
-          - "Co-first author on OceanEnv marine robotics simulation; submitted to IROS 2026."
-          - "Developing Fed-GSR federated learning framework; targeting NeurIPS 2026."
+          - "Lead author on GradES [C.1]: gradient-based early stopping for LoRA fine-tuning, achieving 1.2–1.57× speedup; targeting ICLR 2026."
+          - "Co-first author on OceanEnv [C.2]: unified marine robotics simulation environment; submitted to IROS 2026."
+          - "Developing Fed-GSR federated learning framework (gradient stable rank adaptive compression); targeting ICLR 2026."
+          - "Co-first author on ECRL [C.4]: ensemble variance as exploration regularization in contrastive RL; submitted to NeurIPS 2026."
+          - "Co-author on Pose as a Lens [C.5]: frozen keypoint probing for diagnosing self-supervised visual representations; submitted to NeurIPS 2026."
 
       - company: Boston University, ML Group
         position: Graduate Research Assistant
@@ -52,3 +54,13 @@ cv:
       - title: AI & Computer Vision Lab Student Research Grant
         date: 2024
         awarder: Boston University
+        summary: "Top 1%"
+
+    Competitions:
+      - title: MIT Media Lab — Edge Motion Labs
+        location: Cambridge, MA
+        summary: "AI Intelligent Motion Detection System | Top 20"
+
+    "Core Courses":
+      - summary: "GPA 4.0/4.0 | Top 5% in major"
+      - courses: "Stochastic Processes, Stochastic PDEs, Algorithms, Machine Learning, Statistical Machine Learning, Advanced Machine Learning, Generative AI, Operating Systems, Database Systems, Theory of Computation, Software Engineering"
