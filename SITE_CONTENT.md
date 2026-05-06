@@ -37,7 +37,7 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 
 ### J.1 - From Clicks to Conversations
 - **Title:** From Clicks to Conversations: Evaluating the Effectiveness of Conversational Agents in Statistical Analysis
-- **Authors:** Qifu Wen, Prerana Kochhar, Salma Zeyada, Tahereh Javaheri, Reza Rawassizadeh
+- **Authors:** Qifu Wen, Prishita Kochhar, Sherif Zeyada, Tahereh Javaheri, Reza Rawassizadeh
 - **Venue:** International Journal of Human-Computer Interaction
 - **Publisher:** Taylor & Francis
 - **Year:** 2025
@@ -61,11 +61,11 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 - **Status:** published
 - **Abstract:** Novel parameter estimation method using mean absolute deviations around quartiles for truncated distributions without moments or variance, providing closed-form solutions comparable to MLE for Lévy, Cauchy, and Pareto distributions.
 - **Preview:** estimate_distribution.png
-- **Selected:** false
+- **Selected:** true
 
 ### C.1 - GradES
 - **Title:** GradES: Significantly Faster Training in Transformers with Gradient-Based Early Stopping
-- **Authors:** Qifu Wen, Xinyu Zeng, Ziyi Zhou, Shuwei Liu, Mahdi Hosseinzadeh, Ning Su, Reza Rawassizadeh
+- **Authors:** Qifu Wen, Xi Zeng, Zihan Zhou, Shuaijun Liu, Mehdi Hosseinzadeh, Ningxin Su, Reza Rawassizadeh
 - **Year:** 2025
 - **Status:** preprint
 - **ArXiv:** 2509.01842
@@ -76,42 +76,23 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 
 ### C.2 - OceanEnv
 - **Title:** One Ocean, All Tasks: A Holistic Simulation Environment for Marine Robotics
-- **Authors:** Shuwei Liu, Qifu Wen, Xiang Chen, Xinyu Hu, Ning Su
+- **Authors:** Shuaijun Liu, Qifu Wen, Xiang Chen, Xinyu Hu, Ningxin Su
 - **Venue:** IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 - **Year:** 2026
 - **Status:** under review
 - **Abstract:** OceanEnv is a modular framework unifying large-scale ocean data with simulation tools for 3-DOF and 6-DOF marine robotics training.
-- **Selected:** false
+- **Selected:** true
 
 ### C.3 - GNN Compression
 - **Title:** Pruning and Quantization Impact on Graph Neural Networks
-- **Authors:** Kasra Khedri, Reza Rawassizadeh, Qifu Wen, Mahdi Hosseinzadeh
+- **Authors:** Khatoon Khedri, Reza Rawassizadeh, Qifu Wen, Mehdi Hosseinzadeh
 - **Venue:** Journal of Machine Learning Research
 - **Year:** 2025
 - **Status:** under review
 - **ArXiv:** 2510.22058
 - **Abstract:** Empirical evaluation of pruning and quantization compression techniques on graph neural networks across multiple tasks and datasets.
 - **Preview:** graphic_pruning.png
-- **Selected:** false
-
-### C.4 - ECRL
-- **Title:** Ensemble Variance as Exploration Regularization: A Predictive Diagnostic for Contrastive Reinforcement Learning
-- **Authors:** Ziyi Zhou*, Qifu Wen*, Xinyu Zeng (co-first authors)
-- **Venue:** Neural Information Processing Systems (NeurIPS)
-- **Year:** 2026
-- **Status:** under review
-- **Abstract:** We propose using ensemble variance as an exploration regularization term and a predictive diagnostic in contrastive reinforcement learning settings.
-- **Preview:** ecrl.png
-- **Selected:** false
-
-### C.5 - Pose as a Lens
-- **Title:** Pose as a Lens: Diagnosing Self-Supervised Visual Representations Through Frozen Keypoint Probing
-- **Authors:** Xinyu Zeng, Ziyi Zhou, Qifu Wen
-- **Venue:** Neural Information Processing Systems (NeurIPS)
-- **Year:** 2026
-- **Status:** under review
-- **Abstract:** We use human pose estimation as a self-supervised diagnostic probe to evaluate the quality of visual representations learned without labels.
-- **Selected:** false
+- **Selected:** true
 
 ---
 
@@ -123,7 +104,6 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 2025-05-01 | Paper "Estimation of Distribution Parameters" accepted at _Statistical Papers_ (Springer).
 2025-06-01 | Paper "[From Clicks to Conversations](https://doi.org/10.1080/10447318.2025.2561760)" published in _International Journal of Human-Computer Interaction_ (October 2025).
 2026-02-01 | Paper "Estimation of Distribution Parameters" published in _Statistical Papers_ (Springer), Vol. 67, Article 31.
-2026-05-01 | ECRL and Pose as a Lens submitted to **NeurIPS 2026**.
 
 ---
 
@@ -179,9 +159,6 @@ Visiting Researcher | May 2025 - Apr 2026
 - Lead author on GradES [C.1]: gradient-based early stopping for LoRA fine-tuning, achieving 1.2–1.57× speedup; targeting ICLR 2026.
 - Co-first author on OceanEnv [C.2]: unified marine robotics simulation environment; submitted to IROS 2026.
 - Developing Fed-GSR federated learning framework (gradient stable rank adaptive compression); targeting ICLR 2026.
-- Co-first author on ECRL [C.4]: ensemble variance as exploration regularization in contrastive RL; submitted to NeurIPS 2026.
-- Co-author on Pose as a Lens [C.5]: frozen keypoint probing for diagnosing self-supervised visual representations; submitted to NeurIPS 2026.
-
 **Boston University, ML Group** | Boston, MA
 Graduate Research Assistant | Sept 2023 - Jan 2025
 - First author on IJHCI journal paper on conversational agents for statistical analysis.
