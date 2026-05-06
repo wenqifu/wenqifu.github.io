@@ -1,5 +1,7 @@
 # SITE_CONTENT.md
+
 # Single source of truth for wenqifu.github.io
+
 # Edit this file, then say "sync" to Claude Code to update the website
 
 ---
@@ -36,6 +38,7 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 ## Publications
 
 ### J.1 - From Clicks to Conversations
+
 - **Title:** From Clicks to Conversations: Evaluating the Effectiveness of Conversational Agents in Statistical Analysis
 - **Authors:** Qifu Wen, Prishita Kochhar, Sherif Zeyada, Tahereh Javaheri, Reza Rawassizadeh
 - **Venue:** International Journal of Human-Computer Interaction
@@ -50,6 +53,7 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 - **Selected:** true
 
 ### J.2 - Estimation of Distribution Parameters
+
 - **Title:** Estimation of Distribution Parameters by Mean Absolute Deviations of a Truncated Distribution Using Quantile Functions
 - **Authors:** Eugene Pinsky*, Qifu Wen* (co-first authors)
 - **Venue:** Statistical Papers
@@ -64,6 +68,7 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 - **Selected:** true
 
 ### C.1 - GradES
+
 - **Title:** GradES: Significantly Faster Training in Transformers with Gradient-Based Early Stopping
 - **Authors:** Qifu Wen, Xi Zeng, Zihan Zhou, Shuaijun Liu, Mehdi Hosseinzadeh, Ningxin Su, Reza Rawassizadeh
 - **Year:** 2025
@@ -75,6 +80,7 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 - **Selected:** true
 
 ### C.2 - OceanEnv
+
 - **Title:** One Ocean, All Tasks: A Holistic Simulation Environment for Marine Robotics
 - **Authors:** Shuaijun Liu, Qifu Wen, Xiang Chen, Xinyu Hu, Ningxin Su
 - **Venue:** IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
@@ -84,6 +90,7 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 - **Selected:** true
 
 ### C.3 - GNN Compression
+
 - **Title:** Pruning and Quantization Impact on Graph Neural Networks
 - **Authors:** Khatoon Khedri, Reza Rawassizadeh, Qifu Wen, Mehdi Hosseinzadeh
 - **Venue:** Journal of Machine Learning Research
@@ -110,6 +117,7 @@ Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about resear
 ## Projects
 
 ### GradES
+
 - **Description:** Gradient-based early stopping for efficient transformer fine-tuning. Achieves 1.57–7.22× speedup with 1.2% accuracy gain on Llama-3.1-8B and Qwen3-14B.
 - **Category:** research
 - **Importance:** 1
@@ -120,6 +128,7 @@ GradES is a gradient-based early stopping algorithm that individually freezes tr
 [arXiv Paper](https://arxiv.org/abs/2509.01842)
 
 ### OceanEnv
+
 - **Description:** A unified marine-robotics simulation environment integrating bathymetry, ocean physics, biodiversity, and pollution data for 3-DOF/6-DOF sim-to-real training.
 - **Category:** research
 - **Importance:** 2
@@ -130,6 +139,7 @@ OceanEnv is a modular framework that unifies large-scale ocean data with advance
 Submitted to IROS 2026.
 
 ### LLM Orchestra
+
 - **Description:** Multi-agent LLM system (v6.x) with Claude as orchestrator, five-mode operation, and structured state management. Built Paper Forge academic writing system on top.
 - **Category:** tools
 - **Importance:** 3
@@ -147,6 +157,7 @@ Built **Paper Forge** on top of it — an automated academic paper writing syste
 
 **Boston University** | Boston, MA
 M.S. in Computer Science | 2023 - 2025
+
 - Advisor: Prof. Reza Rawassizadeh
 
 **NYU Shanghai** | Shanghai, China
@@ -156,11 +167,12 @@ B.S. in Mathematics | 2019 - 2023
 
 **Boston University, ML Group** | Boston, MA
 Visiting Researcher | May 2025 - Apr 2026
+
 - Lead author on GradES [C.1]: gradient-based early stopping for LoRA fine-tuning, achieving 1.2–1.57× speedup; targeting ICLR 2026.
 - Co-first author on OceanEnv [C.2]: unified marine robotics simulation environment; submitted to IROS 2026.
 - Developing Fed-GSR federated learning framework (gradient stable rank adaptive compression); targeting ICLR 2026.
-**Boston University, ML Group** | Boston, MA
-Graduate Research Assistant | Sept 2023 - Jan 2025
+  **Boston University, ML Group** | Boston, MA
+  Graduate Research Assistant | Sept 2023 - Jan 2025
 - First author on IJHCI journal paper on conversational agents for statistical analysis.
 - Contributed to GNN compression study submitted to JMLR.
 
@@ -193,7 +205,7 @@ Stochastic Processes, Stochastic PDEs, Algorithms, Machine Learning, Statistical
 2. **Save the file**
 3. **Say "sync" to Claude Code**
 
-Claude will automatically update all the scattered files (_pages/about.md, _bibliography/papers.bib, _news/*.md, _projects/*.md, _data/cv.yml, _config.yml) to match this file.
+Claude will automatically update all the scattered files (\_pages/about.md, \_bibliography/papers.bib, \_news/_.md, \_projects/_.md, \_data/cv.yml, \_config.yml) to match this file.
 
 ## Quick commands:
 
