@@ -33,8 +33,6 @@ cv:
           - "Lead author on GradES [C.1]: gradient-based early stopping for LoRA fine-tuning, achieving 1.2–1.57× speedup; targeting ICLR 2026."
           - "Co-first author on OceanEnv [C.2]: unified marine robotics simulation environment; submitted to IROS 2026."
           - "Developing Fed-GSR federated learning framework (gradient stable rank adaptive compression); targeting ICLR 2026."
-          - "Co-first author on ECRL [C.4]: ensemble variance as exploration regularization in contrastive RL; submitted to NeurIPS 2026."
-          - "Co-author on Pose as a Lens [C.5]: frozen keypoint probing for diagnosing self-supervised visual representations; submitted to NeurIPS 2026."
 
       - company: Boston University, ML Group
         position: Graduate Research Assistant

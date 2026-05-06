@@ -1,34 +1,40 @@
-"adams":
-  - firstname: ["Edwin", "E.", "E. P.", "Edwin Plimpton"]
-    url: https://en.wikipedia.org/wiki/Edwin_Plimpton_Adams
+"rawassizadeh":
+  - firstname: ["Reza"]
+    url: https://www.bu.edu/cs/profiles/reza-rawassizadeh/
 
-"podolsky":
-  - firstname: ["Boris", "B.", "B. Y.", "Boris Yakovlevich"]
-    url: https://en.wikipedia.org/wiki/Boris_Podolsky
+"kochhar":
+  - firstname: ["Prishita"]
 
-"rosen":
-  - firstname: ["Nathan", "N."]
-    url: https://en.wikipedia.org/wiki/Nathan_Rosen
+"zeyada":
+  - firstname: ["Sherif"]
 
-"bach":
-  - firstname: ["Johann Sebastian", "J. S."]
-    url: https://en.wikipedia.org/wiki/Johann_Sebastian_Bach
+"javaheri":
+  - firstname: ["Tahereh"]
 
-  - firstname: ["Carl Philipp Emanuel", "C. P. E."]
-    url: https://en.wikipedia.org/wiki/Carl_Philipp_Emanuel_Bach
+"pinsky":
+  - firstname: ["Eugene"]
 
-"przibram":
-  - firstname: ["Karl"]
-    url: https://link.springer.com/article/10.1007/s00016-019-00242-z
+"zeng":
+  - firstname: ["Xi"]
 
-"schrodinger":
-  - firstname: ["Erwin"]
-    url: https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger
+"zhou":
+  - firstname: ["Zihan"]
 
-"lorentz":
-  - firstname: ["Hendrik Antoon"]
-    url: https://en.wikipedia.org/wiki/Hendrik_Lorentz
+"liu":
+  - firstname: ["Shuaijun"]
 
-"planck":
-  - firstname: ["Max"]
-    url: https://en.wikipedia.org/wiki/Max_Planck
+"hosseinzadeh":
+  - firstname: ["Mehdi"]
+
+"su":
+  - firstname: ["Ningxin"]
+    url: https://facultyprofiles.hkust-gz.edu.cn/faculty-personal-page?id=1648
+
+"chen":
+  - firstname: ["Xiang"]
+
+"hu":
+  - firstname: ["Xinyu"]
+
+"khedri":
+  - firstname: ["Khatoon"]
