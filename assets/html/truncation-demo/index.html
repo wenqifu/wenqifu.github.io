@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No mean? No problem. - quantile MAD estimation demo</title>
+<style>
+  :root {
+    --bg: #FBFAF7; --panel: #FFFFFF; --ink: #2B3A44; --muted: #6A737A;
+    --hot: #E8A64C; --hot-edge: #C77F2A; --cool: #8FB4CC; --accent: #3B7EA1;
+    --good: #3E8E6A; --bad: #C2554F; --grid: #E4E2DC;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #20262B; --panel: #2A3138; --ink: #E8EAEC; --muted: #9AA3AA;
+      --grid: #3A4249;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    display: flex; justify-content: center; padding: 24px 12px;
+  }
+  main { width: 100%; max-width: 880px; }
+  h1 { font-size: 1.7rem; margin-bottom: 6px; }
+  .sub { color: var(--muted); font-size: 1.02rem; line-height: 1.45; margin-bottom: 16px; }
+  .sub b { color: var(--ink); }
+  canvas { width: 100%; height: auto; background: var(--panel); border-radius: 10px;
+           box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  .controls { display: flex; flex-wrap: wrap; gap: 14px 26px; align-items: center;
+              margin: 14px 0 6px; font-size: .98rem; }
+  .controls label { display: flex; align-items: center; gap: 8px; }
+  .controls input[type=range] { width: 130px; accent-color: var(--accent); }
+  .controls .val { font-variant-numeric: tabular-nums; min-width: 3.2em; }
+  button {
+    background: var(--accent); color: #fff; border: 0; border-radius: 7px;
+    padding: 7px 16px; font-size: .98rem; cursor: pointer;
+  }
+  button.secondary { background: transparent; color: var(--accent);
+                     border: 1.5px solid var(--accent); }
+  .score { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .card { flex: 1 1 200px; background: var(--panel); border-radius: 10px; padding: 12px 16px;
+          box-shadow: 0 1px 4px rgba(0,0,0,.10); }
+  .card .lbl { font-size: .85rem; color: var(--muted); margin-bottom: 3px; }
+  .card .num { font-size: 1.55rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .card.bad .num { color: var(--bad); }
+  .card.good .num { color: var(--good); }
+  .foot { color: var(--muted); font-size: .88rem; margin-top: 14px; line-height: 1.5; }
+  #selftest { background: var(--panel); border-radius: 10px; padding: 16px 20px; margin-bottom: 18px; }
+  #selftest h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  #selftest li { margin-left: 1.2em; font-size: .95rem; }
+  .pass { color: var(--good); font-weight: 700; } .fail { color: var(--bad); font-weight: 700; }
+</style>
+</head>
+<body>
+<main>
+  <h1>No mean? No problem.</h1>
+  <p class="sub">
+    This is <b>Cauchy data</b>: its tails are so heavy that the distribution has
+    <b>no mean and no variance</b>, so averaging never converges. Watch the red sample mean
+    get thrown by single wild points while the <b>closed-form quantile MAD estimator</b>
+    locks onto the true curve every time.
+  </p>
+
+  <div id="selftest" hidden></div>
+
+  <canvas id="cv" width="1760" height="840"></canvas>
+
+  <div class="controls">
+    <label>true location x&#8320; <input id="x0" type="range" min="-5" max="5" step="0.1" value="1.5">
+      <span class="val" id="x0v">1.5</span></label>
+    <label>true scale &gamma; <input id="g" type="range" min="0.4" max="3" step="0.1" value="0.8">
+      <span class="val" id="gv">0.8</span></label>
+    <label>sample size <input id="n" type="range" min="50" max="1000" step="50" value="300">
+      <span class="val" id="nv">300</span></label>
+    <button id="resample">new sample</button>
+    <button id="auto" class="secondary">pause</button>
+  </div>
+
+  <div class="score">
+    <div class="card bad"><div class="lbl">sample mean, median |error| so far</div>
+      <div class="num" id="errMean">-</div></div>
+    <div class="card good"><div class="lbl">quantile MAD estimate, median |error| so far</div>
+      <div class="num" id="errEst">-</div></div>
+    <div class="card"><div class="lbl">samples drawn</div><div class="num" id="count">0</div></div>
+  </div>
+
+  <p class="foot">
+    Method: E. Pinsky* and Q. Wen*, &ldquo;Estimation of Distribution Parameters by Mean
+    Absolute Deviations of a Truncated Distribution Using Quantile Functions&rdquo;,
+    <i>Statistical Papers</i> 67:31 (2026). For Cauchy: location = sample median; scale =
+    &pi;/(2 ln 2) times the mean absolute deviation over the interquartile-truncated sample.
+    Closed form, no moments required.
+  </p>
+</main>
+
+<script src="estimator.js"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const cv = $("cv"), ctx = cv.getContext("2d");
+const VIEW = 12;                       // x range shown: [-VIEW, VIEW]
+const rng = mulberry32(Date.now() >>> 0);
+
+const state = { xs: [], est: null, mean: 0, errsMean: [], errsEst: [], auto: true };
+
+function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function params() { return { x0: +$("x0").value, g: +$("g").value, n: +$("n").value }; }
+
+function resample() {
+  const { x0, g, n } = params();
+  state.xs = cauchySample(n, x0, g, rng);
+  state.est = estimate(state.xs);
+  state.mean = state.xs.reduce((a, b) => a + b, 0) / n;
+  state.errsMean.push(Math.abs(state.mean - x0));
+  state.errsEst.push(Math.abs(state.est.x0 - x0));
+  updateScore();
+  draw();
+}
+
+function median(v) { const s = v.slice().sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; }
+function updateScore() {
+  $("errMean").textContent = median(state.errsMean).toFixed(2);
+  $("errEst").textContent = median(state.errsEst).toFixed(2);
+  $("count").textContent = state.errsMean.length;
+}
+function resetScore() { state.errsMean = []; state.errsEst = []; updateScore(); }
+
+const X = x => (x + VIEW) / (2 * VIEW) * cv.width;
+
+function draw() {
+  const { x0, g } = params();
+  const W = cv.width, H = cv.height, base = H - 70;
+  ctx.clearRect(0, 0, W, H);
+
+  // y scale: max of true pdf at its peak, padded
+  const yMax = cauchyPdf(x0, x0, g) * 1.15;
+  const Y = d => base - (d / yMax) * (base - 60);
+
+  // axis + gridline
+  ctx.strokeStyle = css("--grid"); ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0, base); ctx.lineTo(W, base); ctx.stroke();
+
+  // histogram of in-view points
+  const bins = 48, bw = 2 * VIEW / bins, counts = new Array(bins).fill(0);
+  let off = 0;
+  for (const x of state.xs) {
+    if (x < -VIEW || x >= VIEW) { off++; continue; }
+    counts[Math.floor((x + VIEW) / bw)]++;
+  }
+  ctx.fillStyle = css("--cool") + "66";
+  const n = state.xs.length || 1;
+  for (let i = 0; i < bins; i++) {
+    const dens = counts[i] / (n * bw);
+    const h = (dens / yMax) * (base - 60);
+    ctx.fillRect(i * (W / bins) + 1, base - h, W / bins - 2, h);
+  }
+
+  // curves: true (solid) + estimated (dashed)
+  const curve = (loc, sc) => {
+    ctx.beginPath();
+    for (let px = 0; px <= W; px += 4) {
+      const x = px / W * 2 * VIEW - VIEW, y = Y(cauchyPdf(x, loc, sc));
+      px === 0 ? ctx.moveTo(px, y) : ctx.lineTo(px, y);
+    }
+    ctx.stroke();
+  };
+  ctx.strokeStyle = css("--hot-edge"); ctx.lineWidth = 5; ctx.setLineDash([]); curve(x0, g);
+  if (state.est) {
+    ctx.strokeStyle = css("--good"); ctx.lineWidth = 5; ctx.setLineDash([14, 10]);
+    curve(state.est.x0, state.est.gamma); ctx.setLineDash([]);
+  }
+
+  // markers
+  ctx.font = "600 30px Segoe UI, sans-serif"; ctx.textAlign = "center";
+  if (state.est) {   // green triangle: quantile MAD location
+    const ex = X(state.est.x0);
+    ctx.fillStyle = css("--good");
+    ctx.beginPath(); ctx.moveTo(ex, base - 22); ctx.lineTo(ex - 13, base + 2);
+    ctx.lineTo(ex + 13, base + 2); ctx.closePath(); ctx.fill();
+    ctx.fillText("quantile MAD", ex, base + 36);
+  }
+  // red cross: sample mean (arrow at edge when off-screen)
+  ctx.fillStyle = css("--bad"); ctx.strokeStyle = css("--bad"); ctx.lineWidth = 6;
+  const m = state.mean;
+  if (Math.abs(m) <= VIEW) {
+    const mx = X(m);
+    ctx.beginPath(); ctx.moveTo(mx - 12, base - 30); ctx.lineTo(mx + 12, base - 6);
+    ctx.moveTo(mx + 12, base - 30); ctx.lineTo(mx - 12, base - 6); ctx.stroke();
+    ctx.fillText("sample mean", mx, base - 42);
+  } else {
+    const edge = m > 0 ? W - 30 : 30, dir = m > 0 ? 1 : -1;
+    ctx.beginPath(); ctx.moveTo(edge - 40 * dir, base - 40); ctx.lineTo(edge, base - 40);
+    ctx.lineTo(edge - 14 * dir, base - 52); ctx.moveTo(edge, base - 40);
+    ctx.lineTo(edge - 14 * dir, base - 28); ctx.stroke();
+    ctx.textAlign = m > 0 ? "right" : "left";
+    ctx.fillText("sample mean at " + m.toFixed(1), edge - 52 * dir, base - 52);
+    ctx.textAlign = "center";
+  }
+  if (off > 0) {
+    ctx.fillStyle = css("--muted"); ctx.font = "26px Segoe UI, sans-serif";
+    ctx.textAlign = "right"; ctx.fillText(off + " points beyond view", W - 16, 40);
+    ctx.textAlign = "center";
+  }
+}
+
+["x0", "g", "n"].forEach(id => $(id).addEventListener("input", () => {
+  $(id + "v").textContent = $(id).value;
+  resetScore(); resample();
+}));
+$("resample").addEventListener("click", resample);
+$("auto").addEventListener("click", () => {
+  state.auto = !state.auto;
+  $("auto").textContent = state.auto ? "pause" : "auto play";
+});
+setInterval(() => { if (state.auto) resample(); }, 1600);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+
+if (location.search.includes("selftest") || location.hash.includes("selftest")) {
+  const el = $("selftest"); el.hidden = false;
+  const res = runSelfTest();
+  el.innerHTML = "<h2>Self-test: " +
+    (res.every(r => r.pass) ? "<span class='pass'>ALL PASS</span>" : "<span class='fail'>FAILURES</span>") +
+    "</h2><ul>" + res.map(r =>
+      `<li><span class="${r.pass ? "pass" : "fail"}">${r.pass ? "PASS" : "FAIL"}</span> ${r.name} <small>(${r.detail})</small></li>`
+    ).join("") + "</ul>";
+}
+resample();
+</script>
+</body>
+</html>
