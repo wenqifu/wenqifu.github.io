@@ -1,9 +1,9 @@
 cv:
   name: Qifu (Danny) Wen
-  label: Visiting Researcher
+  label: Research Assistant
   email: qfwen@bu.edu
-  location: Boston, MA
-  summary: Visiting Researcher at Boston University ML Group. Research focuses on efficient training of large models, federated learning, and sim-to-real robotics.
+  location: Shanghai, China
+  summary: Research Assistant at Shanghai Jiao Tong University (Institute of Cyberspace Security); previously Boston University ML Group. Efficient and reliable training of large models, LLM fine-tuning, and reinforcement learning.
 
   sections:
     Education:
@@ -24,28 +24,35 @@ cv:
         end_date: 2023
 
     Experience:
+      - company: Shanghai Jiao Tong University, Institute of Cyberspace Security
+        position: Research Assistant
+        location: Shanghai, China
+        start_date: 2026-07
+        end_date: Present
+        highlights:
+          - "Advisor: Prof. Xi Lin."
+
       - company: Boston University, ML Group
-        position: Visiting Researcher
+        position: Researcher
         location: Boston, MA
         start_date: 2025-05
         end_date: 2026-04
         highlights:
-          - "Lead author on GradES [C.1]: gradient-based early stopping for LoRA fine-tuning, achieving 1.2–1.57× speedup; targeting ICLR 2026."
-          - "Co-first author on OceanEnv [C.2]: unified marine robotics simulation environment; submitted to IROS 2026."
-          - "Developing Fed-GSR federated learning framework (gradient stable rank adaptive compression); targeting ICLR 2026."
+          - "Lead author on GradES [C.1]: gradient-based per-matrix early stopping; 1.70–1.77× faster full-parameter fine-tuning at neutral accuracy; under review at AAAI 2027."
+          - "Co-first author on OceanEnv [C.2]: unified marine-robotics simulation environment; under review at AAAI 2027."
+          - "Co-first author on ECRL [C.3] (reinforcement learning) and contributor to Pose as a Lens [C.4] (self-supervised diagnostics); under review at NeurIPS 2026."
 
       - company: Boston University, ML Group
         position: Graduate Research Assistant
         location: Boston, MA
         start_date: 2023-09
-        end_date: 2025-01
+        end_date: 2025-05
         highlights:
-          - "First author on IJHCI journal paper on conversational agents for statistical analysis."
-          - "Contributed to GNN compression study submitted to JMLR."
+          - "First author on IJHCI journal paper on conversational agents for statistical analysis [J.1]."
 
     "Professional Service":
       - name: Conference Reviewing
-        summary: "ICML (2025, 2026)"
+        summary: "ICML 2026; NeurIPS 2026"
 
     Awards:
       - title: AI & Computer Vision Lab Student Research Grant
@@ -59,5 +66,5 @@ cv:
         summary: "AI Intelligent Motion Detection System | Top 20"
 
     "Core Courses":
-      - summary: "GPA 4.0/4.0 | Top 5% in major"
+      - summary: "Overall M.S. GPA 3.83/4.0; core coursework 4.0/4.0; Top 5% in major"
       - courses: "Stochastic Processes, Stochastic PDEs, Algorithms, Machine Learning, Statistical Machine Learning, Advanced Machine Learning, Generative AI, Operating Systems, Database Systems, Theory of Computation, Software Engineering"

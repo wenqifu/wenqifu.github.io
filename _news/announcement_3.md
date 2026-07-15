@@ -1,8 +1,8 @@
 ---
 layout: post
-date: 2025-03-15
+date: 2026-06-15
 inline: true
 related_posts: false
 ---
 
-OceanEnv submitted to **IROS 2026**.
+OceanEnv submitted to **AAAI 2027**.
