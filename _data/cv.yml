@@ -3,7 +3,7 @@ cv:
   label: Research Assistant
   email: qfwen@bu.edu
   location: Shanghai, China
-  summary: Research Assistant at Shanghai Jiao Tong University (Institute of Cyberspace Security); previously Boston University ML Group. Efficient and reliable training of large models, LLM fine-tuning, and reinforcement learning.
+  summary: Research Assistant in Prof. Xi Lin's group at Shanghai Jiao Tong University; previously Boston University ML Group. Efficient and reliable training of large models, LLM fine-tuning, and reinforcement learning.
 
   sections:
     Education:
@@ -24,7 +24,7 @@ cv:
         end_date: 2023
 
     Experience:
-      - company: Shanghai Jiao Tong University, Institute of Cyberspace Security
+      - company: Shanghai Jiao Tong University, Prof. Xi Lin's Group
         position: Research Assistant
         location: Shanghai, China
         start_date: 2026-07

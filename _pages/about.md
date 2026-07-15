@@ -3,7 +3,7 @@ layout: about
 title: about
 permalink: /
 subtitle: >-
-  Research Assistant, Institute of Cyberspace Security,
+  Research Assistant, Prof. Xi Lin's group,
   <a href="https://en.sjtu.edu.cn/">Shanghai Jiao Tong University</a> ·
   prev. ML Group, Boston University
 
@@ -28,7 +28,7 @@ latest_posts:
   enabled: false
 ---
 
-I am a Research Assistant in the Institute of Cyberspace Security (Prof. Xi Lin's group) at [Shanghai Jiao Tong University](https://en.sjtu.edu.cn/). Previously I was a researcher in the [ML Group](https://www.bu.edu/cs/profiles/reza-rawassizadeh/) at [Boston University](https://www.bu.edu/cs/), advised by [Prof. Reza Rawassizadeh](https://www.bu.edu/cs/profiles/reza-rawassizadeh/). I completed my M.S. in Computer Science at BU and my B.S. in Mathematics at [NYU Shanghai](https://shanghai.nyu.edu/).
+I am a Research Assistant in Prof. Xi Lin's group at [Shanghai Jiao Tong University](https://en.sjtu.edu.cn/). Previously I was a researcher in the [ML Group](https://www.bu.edu/cs/profiles/reza-rawassizadeh/) at [Boston University](https://www.bu.edu/cs/), advised by [Prof. Reza Rawassizadeh](https://www.bu.edu/cs/profiles/reza-rawassizadeh/). I completed my M.S. in Computer Science at BU and my B.S. in Mathematics at [NYU Shanghai](https://shanghai.nyu.edu/).
 
 My research centers on **efficient and reliable training of large models**, viewed through a stochastic-process / training-dynamics lens. [GradES](https://arxiv.org/abs/2509.01842) speeds up full-parameter fine-tuning by 1.70–1.77× at neutral accuracy by selectively freezing transformer components at convergence. In **reinforcement learning**, my recent work (ECRL) started as an epistemic exploration method and ended up revealing that ensemble variance functions as a controllable regularizer. I have a strong mathematical background in measure-theoretic probability and stochastic processes.
 
