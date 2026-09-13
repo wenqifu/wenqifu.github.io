@@ -13,7 +13,7 @@ const GAMMA_CONST = Math.PI / (2 * Math.log(2));
 function mulberry32(seed) {
   let state = seed >>> 0;
   return function () {
-    state = (state + 0x6D2B79F5) >>> 0;
+    state = (state + 0x6d2b79f5) >>> 0;
     let t = state;
     t = Math.imul(t ^ (t >>> 15), t | 1) >>> 0;
     t = (t ^ ((t + Math.imul(t ^ (t >>> 7), t | 61)) >>> 0)) >>> 0;
@@ -30,7 +30,8 @@ function cauchySample(n, x0, gamma, seedOrRng) {
 
 function quantile(sortedXs, p) {
   const idx = p * (sortedXs.length - 1);
-  const lo = Math.floor(idx), hi = Math.ceil(idx);
+  const lo = Math.floor(idx),
+    hi = Math.ceil(idx);
   if (lo === hi) return sortedXs[lo];
   return sortedXs[lo] + (idx - lo) * (sortedXs[hi] - sortedXs[lo]);
 }
@@ -38,9 +39,15 @@ function quantile(sortedXs, p) {
 function estimate(xs) {
   const s = xs.slice().sort((a, b) => a - b);
   const x0Hat = quantile(s, 0.5);
-  const q1 = quantile(s, 0.25), q3 = quantile(s, 0.75);
-  let sum = 0, k = 0;
-  for (const x of s) if (x >= q1 && x <= q3) { sum += Math.abs(x - x0Hat); k++; }
+  const q1 = quantile(s, 0.25),
+    q3 = quantile(s, 0.75);
+  let sum = 0,
+    k = 0;
+  for (const x of s)
+    if (x >= q1 && x <= q3) {
+      sum += Math.abs(x - x0Hat);
+      k++;
+    }
   return { x0: x0Hat, gamma: GAMMA_CONST * (sum / k) };
 }
 
@@ -61,21 +68,27 @@ function runSelfTest() {
   const check = (name, pass, detail) => results.push({ name, pass, detail });
 
   const draws = cauchySample(3, 1.5, 0.8, 42);
-  check("RNG stream matches Python reference",
+  check(
+    "RNG stream matches Python reference",
     draws.every((v, i) => Math.abs(v - EXPECT.first3[i]) < 1e-9),
-    draws.map(v => v.toFixed(9)).join(", "));
+    draws.map((v) => v.toFixed(9)).join(", ")
+  );
 
   const q = quantile([1, 2, 3, 4], 0.25);
   check("quantile interpolation", Math.abs(q - 1.75) < 1e-12, "Q(0.25)=" + q);
 
   const est = estimate(cauchySample(20000, 1.5, 0.8, 42));
-  check("estimate matches Python vectors to 1e-6",
+  check(
+    "estimate matches Python vectors to 1e-6",
     Math.abs(est.x0 - EXPECT.x0Hat) < 1e-6 && Math.abs(est.gamma - EXPECT.gammaHat) < 1e-6,
-    `x0=${est.x0.toFixed(10)} gamma=${est.gamma.toFixed(10)}`);
+    `x0=${est.x0.toFixed(10)} gamma=${est.gamma.toFixed(10)}`
+  );
 
-  check("consistency: recovers (1.5, 0.8) on 20k draws",
+  check(
+    "consistency: recovers (1.5, 0.8) on 20k draws",
     Math.abs(est.x0 - 1.5) < 0.05 && Math.abs(est.gamma - 0.8) < 0.05,
-    `|dx0|=${Math.abs(est.x0 - 1.5).toFixed(4)} |dg|=${Math.abs(est.gamma - 0.8).toFixed(4)}`);
+    `|dx0|=${Math.abs(est.x0 - 1.5).toFixed(4)} |dg|=${Math.abs(est.gamma - 0.8).toFixed(4)}`
+  );
 
   return results;
 }
