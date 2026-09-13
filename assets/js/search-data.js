@@ -81,7 +81,12 @@ ninja.data = [{
           section: "News",},{id: "news-oceanenv-submitted-to-aaai-2027",
           title: 'OceanEnv submitted to AAAI 2027.',
           description: "",
-          section: "News",},{id: "projects-grades",
+          section: "News",},{id: "projects-how-wrong-can-a-good-predictor-be",
+          title: 'How Wrong Can a Good Predictor Be?',
+          description: "Diverging updates with vanishing predictive KL for every fixed finite hidden-state count.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/expressivity-gap/";
+            },},{id: "projects-grades",
           title: 'GradES',
           description: "Gradient-based early stopping for efficient transformer fine-tuning. Achieves 1.70–1.77× faster full-parameter fine-tuning at neutral accuracy on Qwen3-0.6B, Llama-3.1-8B, and Qwen3-14B.",
           section: "Projects",handler: () => {
