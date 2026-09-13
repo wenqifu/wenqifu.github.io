@@ -1,0 +1,44 @@
+{
+  "wen2026predictor":
+    [
+      { "image": "figures/wen2026predictor-1.png", "caption": "Internal state distance grows while predictive KL falls." },
+      { "image": "figures/wen2026predictor-2.png", "caption": "Different updates can produce nearly identical predictions." },
+    ],
+  "zhou2026srjepa":
+    [
+      { "image": "figures/zhou2026srjepa-1.png", "caption": "Query a missing object using its surrounding 3D scene." },
+      { "image": "figures/zhou2026srjepa-2.png", "caption": "Learn missing 3D state through latent prediction." },
+    ],
+  "liu2026cowam":
+    [
+      { "image": "figures/liu2026cowam-1.png", "caption": "Transfer, placement and insertion require coordinated actions." },
+      { "image": "figures/liu2026cowam-2.png", "caption": "Nominal failure versus CoWAM success: can-in-basket sequences." },
+    ],
+  "khedri2025pruning":
+    [
+      { "image": "figures/khedri2025pruning-1.png", "caption": "Global pruning: accuracy changes with sparsity across datasets." },
+      { "image": "figures/khedri2025pruning-2.png", "caption": "Grain pruning: compare the same accuracy–sparsity tradeoff." },
+    ],
+  "pinsky2025pareto":
+    [
+      { "image": "figures/pinsky2025pareto-1.png", "caption": "Income inequality as an area below the equality line." },
+      { "image": "figures/pinsky2025pareto-2.png", "caption": "The same Gini coefficient through the quantile function." },
+    ],
+  "wen2025grades":
+    [
+      { "image": "figures/wen2025grades-1.png", "caption": "Freeze converged components while others continue training." },
+      { "image": "figures/wen2025grades-2.png", "caption": "Transformer components converge at different rates." },
+    ],
+  "zhou2026ecrl":
+    [
+      { "image": "figures/zhou2026ecrl-1.png", "caption": "Exploration gains depend on the effective regularization ratio." },
+      { "image": "figures/zhou2026ecrl-2.png", "caption": "Humanoid learning curves compare fixed and calibrated regularization." },
+    ],
+  "zeng2026pose":
+    [
+      { "image": "figures/zeng2026pose-1.png", "caption": "Frozen pose probes compare representations across label budgets." },
+      { "image": "figures/zeng2026pose-2.png", "caption": "Localization thresholds reveal differences between visual representations." },
+    ],
+  "wen2025clicks": [{ "image": "statz.png", "caption": "Keyboard and mouse inputs across five statistical analysis tools." }],
+  "pinsky2026estimation": [{ "image": "estimate_distribution.png", "caption": "Compare shape and scale estimation errors as sample size grows." }],
+}

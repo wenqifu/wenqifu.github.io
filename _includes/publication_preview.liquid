@@ -1,0 +1,22 @@
+<div class="paper-gallery" role="group" aria-label="Figures from {{ include.title | escape }}">
+  {% for slide in include.figures %}
+    {% assign image_path = slide.image | prepend: '/assets/img/publication_preview/' %}
+    <figure
+      class="paper-slide"
+      {% unless forloop.first %}
+        hidden
+      {% endunless %}
+    >
+      <a
+        class="paper-figure-link"
+        href="{{ image_path | relative_url }}"
+        target="_blank"
+        rel="noopener"
+        aria-label="Open full-size figure: {{ slide.caption | escape }}"
+      >
+        <img class="preview" src="{{ image_path | relative_url }}" alt="{{ slide.caption | escape }}" loading="lazy" decoding="async">
+      </a>
+      <figcaption class="paper-caption">{{ slide.caption }}</figcaption>
+    </figure>
+  {% endfor %}
+</div>

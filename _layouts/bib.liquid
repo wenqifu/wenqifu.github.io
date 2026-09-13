@@ -25,7 +25,23 @@
           <abbr class="badge rounded w-100">{{ entry.abbr }}</abbr>
         {% endif %}
       {% endif %}
-      {% if entry.preview %}
+      {% assign paper_figures = site.data.publication_previews[entry.key] %}
+      {% if paper_figures %}
+        {% include publication_preview.liquid figures=paper_figures title=entry.title %}
+      {% elsif entry.key == 'liu2026ocean' %}
+        <figure>
+          <img
+            class="preview rounded"
+            src="{{ '/assets/img/publication_preview/figures/oceanenv-poster.png' | relative_url }}"
+            data-motion-src="{{ '/assets/img/publication_preview/oceanenv.gif' | relative_url }}"
+            alt="OceanEnv marine robotics simulation"
+            width="480"
+            height="216"
+            loading="lazy"
+          >
+          <figcaption class="paper-caption">OceanEnv marine robotics simulation.</figcaption>
+        </figure>
+      {% elsif entry.preview %}
         {% if entry.preview contains '://' %}
           <img class="preview rounded" src="{{ entry.preview }}" alt="Preview of {{ entry.title | escape }}" loading="lazy">
         {% else %}

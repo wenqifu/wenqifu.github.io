@@ -1,53 +1,65 @@
 $(document).ready(function () {
-  // Reuse decoded local GIFs as still previews, without introducing another media library.
-  const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-  document.querySelectorAll('.publication-media img.preview[src$=".gif"]').forEach((img) => {
-    const animatedSource = img.src;
-    if (new URL(animatedSource).origin !== location.origin) return;
-    const initialize = () => {
-      if (!img.naturalWidth) return;
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const context = canvas.getContext("2d");
-      if (!context) return;
-      let stillSource;
-      try {
-        context.drawImage(img, 0, 0);
-        stillSource = canvas.toDataURL("image/png");
-      } catch {
-        // A redirected image may be cross-origin; retain the original preview.
-        return;
-      }
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "preview-motion";
-      const pause = () => {
-        img.src = stillSource;
-        button.textContent = "Play preview";
-        button.setAttribute("aria-label", "Play preview: " + img.alt);
-        button.setAttribute("aria-pressed", "false");
-      };
-      button.addEventListener("click", () => {
-        if (button.getAttribute("aria-pressed") === "true") pause();
-        else {
-          img.src = animatedSource;
-          button.textContent = "Pause preview";
-          button.setAttribute("aria-label", "Pause preview: " + img.alt);
-          button.setAttribute("aria-pressed", "true");
-        }
-      });
-      motionPreference.addEventListener("change", (event) => {
-        if (event.matches) pause();
-      });
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) pause();
-      });
-      pause();
-      img.closest(".publication-media").append(button);
+  // Manual paper figures: no timers, automatic motion, or extra media dependency.
+  document.querySelectorAll(".paper-gallery").forEach((gallery) => {
+    const slides = [...gallery.querySelectorAll(".paper-slide")];
+    if (slides.length < 2) return;
+    let index = 0;
+    const controls = document.createElement("div");
+    controls.className = "paper-controls";
+    const previous = document.createElement("button");
+    const next = document.createElement("button");
+    const status = document.createElement("span");
+    previous.type = next.type = "button";
+    previous.textContent = "Previous";
+    next.textContent = "Next";
+    previous.setAttribute("aria-label", "Previous paper figure");
+    next.setAttribute("aria-label", "Next paper figure");
+    status.setAttribute("aria-live", "polite");
+    status.setAttribute("aria-atomic", "true");
+    const show = (offset) => {
+      slides[index].hidden = true;
+      index = (index + offset + slides.length) % slides.length;
+      slides[index].hidden = false;
+      status.textContent = `${index + 1} / ${slides.length}`;
+      status.setAttribute("aria-label", `Figure ${index + 1} of ${slides.length}: ${slides[index].querySelector("figcaption").textContent}`);
     };
-    if (img.complete) initialize();
-    else img.addEventListener("load", initialize, { once: true });
+    previous.addEventListener("click", () => show(-1));
+    next.addEventListener("click", () => show(1));
+    controls.append(previous, status, next);
+    gallery.append(controls);
+    show(0);
+  });
+
+  // Real simulation footage uses a deliberate source frame as its static poster.
+  const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  document.querySelectorAll(".publication-media img[data-motion-src]").forEach((img) => {
+    const stillSource = img.src;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "preview-motion";
+    const pause = () => {
+      img.src = stillSource;
+      button.textContent = "Play demo";
+      button.setAttribute("aria-label", "Play demo: " + img.alt);
+      button.setAttribute("aria-pressed", "false");
+    };
+    button.addEventListener("click", () => {
+      if (button.getAttribute("aria-pressed") === "true") pause();
+      else {
+        img.src = img.dataset.motionSrc;
+        button.textContent = "Pause demo";
+        button.setAttribute("aria-label", "Pause demo: " + img.alt);
+        button.setAttribute("aria-pressed", "true");
+      }
+    });
+    motionPreference.addEventListener("change", (event) => {
+      if (event.matches) pause();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) pause();
+    });
+    pause();
+    img.closest(".publication-media").append(button);
   });
 
   // add toggle functionality to abstract, award and bibtex buttons
