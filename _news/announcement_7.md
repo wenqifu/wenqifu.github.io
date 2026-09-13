@@ -5,4 +5,6 @@ inline: true
 related_posts: false
 ---
 
-ECRL and Pose as a Lens submitted to **NeurIPS 2026**.
+Pose as a Lens submitted to **NeurIPS 2026**.
+
+{% comment %}Original announcement included ECRL; hidden at Danny's request pending a new version, 2026-09-13.{% endcomment %}

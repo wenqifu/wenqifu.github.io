@@ -30,7 +30,7 @@ latest_posts:
 
 I am a Research Assistant in Prof. Xi Lin's group at [Shanghai Jiao Tong University](https://en.sjtu.edu.cn/). Previously I was a researcher in the [ML Group](https://www.bu.edu/cs/profiles/reza-rawassizadeh/) at [Boston University](https://www.bu.edu/cs/), advised by [Prof. Reza Rawassizadeh](https://www.bu.edu/cs/profiles/reza-rawassizadeh/). I completed my M.S. in Computer Science at BU and my B.S. in Mathematics at [NYU Shanghai](https://shanghai.nyu.edu/).
 
-My research centers on **efficient and reliable training of large models**, viewed through a stochastic-process / training-dynamics lens. [GradES](https://arxiv.org/abs/2509.01842) speeds up full-parameter fine-tuning by 1.70–1.77× at neutral accuracy by selectively freezing transformer components at convergence. In **reinforcement learning**, my recent work (ECRL) started as an epistemic exploration method and ended up revealing that ensemble variance functions as a controllable regularizer. I have a strong mathematical background in measure-theoretic probability and stochastic processes.
+My research centers on **efficient and reliable training of large models**, viewed through a stochastic-process / training-dynamics lens. [GradES](https://arxiv.org/abs/2509.01842) speeds up full-parameter fine-tuning by 1.70–1.77× at neutral accuracy by selectively freezing transformer components at convergence. I have a strong mathematical background in measure-theoretic probability and stochastic processes.
 
 I am a reviewer for ICML 2026 and NeurIPS 2026. I am currently applying to PhD programs for Fall 2027.
 
@@ -39,3 +39,8 @@ Outside of my research, I enjoy playing basketball, hiking and playing rimworld.
 Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about research or collaboration!
 
 <!-- CV PDFs will be added soon: [CV (English)](/assets/pdf/Research_CV_EN.pdf) | [CV (中文)](/assets/pdf/Research_CV_ZH.pdf) -->
+
+{% comment %}
+ECRL website mention paused by Danny, 2026-09-13, pending a new version.
+In **reinforcement learning**, my recent work (ECRL) started as an epistemic exploration method and ended up revealing that ensemble variance functions as a controllable regularizer.
+{% endcomment %}
