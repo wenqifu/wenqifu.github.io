@@ -2,6 +2,34 @@
  * CV shared styles
  *****************************/
 
+.cv {
+  .card {
+    box-shadow: none;
+    border: 0;
+    border-top: 1px solid var(--global-divider-color);
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .card-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .cv-generic-entry + .cv-generic-entry {
+    margin-top: 0.75rem;
+  }
+
+  .cv-generic-entry p:last-child {
+    margin-bottom: 0;
+  }
+
+  a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
 div.container-link-button {
   margin-right: 0.5rem;
 }

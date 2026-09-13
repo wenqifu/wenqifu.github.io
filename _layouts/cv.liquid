@@ -80,7 +80,9 @@ layout: default
               {% if cv.email %}
                 <tr>
                   <td class="p-1 pr-2 font-weight-bold"><b>Email</b></td>
-                  <td class="p-1 pl-2 font-weight-light">{{ cv.email }}</td>
+                  <td class="p-1 pl-2 font-weight-light">
+                    <a href="mailto:{{ cv.email | escape }}">{{ cv.email }}</a>
+                  </td>
                 </tr>
               {% endif %}
               {% if cv.phone %}
@@ -188,6 +190,21 @@ layout: default
                   {% elsif entry.label %}
                     <div class="card-text font-weight-light">
                       <strong>{{ entry.label }}:</strong> {{ entry.details }}
+                    </div>
+                  {% else %}
+                    <div class="cv-generic-entry">
+                      {% if entry.name or entry.title %}
+                        <p class="font-weight-bold mb-1">{{ entry.name | default: entry.title | escape }}</p>
+                      {% endif %}
+                      {% if entry.location %}
+                        <p class="mb-1">{{ entry.location | escape }}</p>
+                      {% endif %}
+                      {% if entry.summary %}
+                        {{ entry.summary | markdownify }}
+                      {% endif %}
+                      {% if entry.courses %}
+                        <p>{{ entry.courses | escape }}</p>
+                      {% endif %}
                     </div>
                   {% endif %}
                 {% endfor %}

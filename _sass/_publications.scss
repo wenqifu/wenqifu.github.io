@@ -7,6 +7,46 @@
 .publications {
   margin-top: 2rem;
 
+  .publication-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
+    gap: 1.75rem;
+    margin: 0;
+    align-items: start;
+  }
+
+  .publication-row-text-only {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .publication-body,
+  .publication-media {
+    min-width: 0;
+  }
+
+  .publication-media figure {
+    margin: 0;
+  }
+
+  .publication-body .title {
+    font-size: 1.1rem;
+    line-height: 1.45;
+    margin-bottom: 0.4rem;
+  }
+
+  .publication-body .author,
+  .publication-body .periodical {
+    line-height: 1.55;
+    margin-bottom: 0.35rem;
+  }
+
+  @media (max-width: 575px) {
+    .publication-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.8rem;
+    }
+  }
+
   h1 {
     color: var(--global-theme-color);
     font-size: 2rem;
@@ -24,11 +64,11 @@
   }
 
   h2.bibliography {
-    color: var(--global-divider-color);
+    color: var(--global-text-color);
     border-top: 1px solid var(--global-divider-color);
     padding-top: 1rem;
     margin-top: 2rem;
-    text-align: right;
+    text-align: left;
   }
 
   ol.bibliography {
@@ -37,7 +77,9 @@
     margin-top: 0;
 
     li {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--global-divider-color);
 
       .preview {
         display: inline-block;
@@ -100,7 +142,20 @@
       }
 
       .links {
-        a.btn {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 44px;
+          font-size: 0.8rem;
+          text-transform: none;
+          margin: 0;
+          background: transparent;
           color: var(--global-text-color);
           border: 1px solid var(--global-text-color);
           padding-left: 1rem;
@@ -112,6 +167,11 @@
           &:hover {
             color: var(--global-theme-color);
             border-color: var(--global-theme-color);
+          }
+
+          &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 3px;
           }
         }
         a.award.btn {

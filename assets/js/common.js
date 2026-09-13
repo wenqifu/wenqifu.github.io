@@ -1,19 +1,14 @@
 $(document).ready(function () {
   // add toggle functionality to abstract, award and bibtex buttons
-  $("a.abstract").click(function () {
-    $(this).parent().parent().find(".abstract.hidden").toggleClass("open");
-    $(this).parent().parent().find(".award.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".bibtex.hidden.open").toggleClass("open");
-  });
-  $("a.award").click(function () {
-    $(this).parent().parent().find(".abstract.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".award.hidden").toggleClass("open");
-    $(this).parent().parent().find(".bibtex.hidden.open").toggleClass("open");
-  });
-  $("a.bibtex").click(function () {
-    $(this).parent().parent().find(".abstract.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".award.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".bibtex.hidden").toggleClass("open");
+  $(".links .abstract, .links .award, .links .bibtex").click(function () {
+    const entry = $(this).parent().parent();
+    const kind = ["abstract", "award", "bibtex"].find((name) => $(this).hasClass(name));
+    const panel = entry.find("." + kind + ".hidden");
+    const willOpen = !panel.hasClass("open");
+    entry.find(".hidden.open").removeClass("open");
+    entry.find(".links [aria-expanded]").attr("aria-expanded", "false");
+    panel.toggleClass("open", willOpen);
+    $(this).attr("aria-expanded", String(willOpen));
   });
   $("a").removeClass("waves-effect waves-light");
 
