@@ -21,3 +21,7 @@ Rendered paper figures, not generated scientific diagrams. Public source PDFs we
 - `statz.png`: Existing repository original paper figure
 - `estimate_distribution.png`: Existing repository original paper figure
 - `oceanenv-poster.png`: Existing oceanenv.gif, frame 0
+
+## Explanatory lead images
+
+The four `*-concept.svg` files are original schematic explanations of the paper methods, not experimental figures or measured results. StatZ shows the conversational analysis workflow; estimation shows quantile-based truncation; GNN shows illustrative weight pruning; Pose shows a frozen encoder and trained keypoint probe. ECRL uses the existing author-provided `ecrl.png` method figure.

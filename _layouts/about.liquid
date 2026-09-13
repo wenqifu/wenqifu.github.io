@@ -50,6 +50,18 @@ layout: default
       </div>
     </div>
 
+    <section id="research" aria-labelledby="research-title">
+      <h2 id="research-title" class="about-section-title">Research &amp; publications</h2>
+      <p class="research-intro">All papers and preprints, newest year first. Explore a preview or open the paper.</p>
+      <div class="research-filter" hidden>
+        <label for="research-search">Find a paper</label>
+        <input id="research-search" type="search" placeholder="Title, author or topic" autocomplete="off">
+        <span id="research-count" role="status" aria-live="polite"></span>
+      </div>
+      <p id="research-empty" hidden>No papers match. Try another title, author or topic.</p>
+      {% include selected_papers.liquid %}
+    </section>
+
     <!-- News -->
     {% if page.announcements and page.announcements.enabled %}
       <h2 class="about-section-title">
@@ -64,14 +76,6 @@ layout: default
         <a href="{{ '/blog/' | relative_url }}" style="color: inherit">latest posts</a>
       </h2>
       {% include latest_posts.liquid %}
-    {% endif %}
-
-    <!-- Selected papers -->
-    {% if page.selected_papers %}
-      <h2 class="about-section-title">
-        <a href="{{ '/publications/' | relative_url }}" style="color: inherit">selected publications</a>
-      </h2>
-      {% include selected_papers.liquid %}
     {% endif %}
 
     {% if site.newsletter and site.newsletter.enabled and site.footer_fixed %}

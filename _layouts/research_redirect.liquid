@@ -1,0 +1,27 @@
+---
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      Research &amp; publications ·
+      {{ site.first_name }}
+      {{ site.last_name }}
+    </title>
+    <link rel="canonical" href="{{ '/' | absolute_url }}">
+    <noscript><meta http-equiv="refresh" content="0; url={{ '/#research' | relative_url }}"></noscript>
+    <script>
+      const home = {{ '/' | relative_url | jsonify }};
+      let fragment = location.hash.slice(1);
+      try { fragment = decodeURIComponent(fragment); } catch { /* Preserve malformed legacy queries as text. */ }
+      const paperIds = [{% for pair in site.data.publication_previews %}{{ pair[0] | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
+      paperIds.push("liu2026ocean");
+      location.replace(fragment && paperIds.includes(fragment) ? home + "#" + fragment : home + (fragment ? "?q=" + encodeURIComponent(fragment) : "") + "#research");
+    </script>
+  </head>
+  <body>
+    <p>Publications are now on the homepage. <a href="{{ '/#research' | relative_url }}">View research and publications</a>.</p>
+  </body>
+</html>

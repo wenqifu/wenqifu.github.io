@@ -312,3 +312,52 @@
   outline: 2px solid var(--global-theme-color);
   outline-offset: -3px;
 }
+
+#research,
+.publication-body {
+  scroll-margin-top: 6rem;
+}
+#research [hidden] {
+  display: none !important;
+}
+.research-intro {
+  color: var(--global-text-color-light);
+}
+.research-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  margin: 1.25rem 0;
+  label {
+    margin: 0;
+  }
+  input {
+    min-width: 0;
+    flex: 1 1 220px;
+    min-height: 44px;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 6px;
+    background: var(--global-bg-color);
+    color: var(--global-text-color);
+    padding: 0.5rem 0.75rem;
+  }
+  #research-count {
+    font-size: 0.875rem;
+  }
+}
+.publications .paper-gallery .paper-caption {
+  min-height: 6.5rem;
+}
+.preview-kind {
+  display: block;
+  color: var(--global-text-color-light);
+  font-size: 0.75rem;
+  margin-bottom: 0.15rem;
+}
+.publications .paper-controls {
+  justify-content: flex-start;
+  .paper-autoplay {
+    margin-left: auto;
+  }
+}

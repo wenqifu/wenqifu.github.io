@@ -16,7 +16,12 @@
       >
         <img class="preview" src="{{ image_path | relative_url }}" alt="{{ slide.caption | escape }}" loading="lazy" decoding="async">
       </a>
-      <figcaption class="paper-caption">{{ slide.caption }}</figcaption>
+      <figcaption class="paper-caption">
+        {% if slide.kind -%}
+          <span class="preview-kind">{{ slide.kind }}</span>
+        {%- endif -%}
+        {{- slide.caption }}
+      </figcaption>
     </figure>
   {% endfor %}
 </div>

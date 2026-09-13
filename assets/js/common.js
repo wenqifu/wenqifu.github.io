@@ -1,66 +1,155 @@
 $(document).ready(function () {
-  // Manual paper figures: no timers, automatic motion, or extra media dependency.
+  const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const updates = new WeakMap();
+  const observer =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => updates.get(entry.target)?.(entry.isIntersecting));
+          },
+          { threshold: 0.2 }
+        )
+      : null;
+
+  // Run media only while it can be seen; explicit pause survives scrolling away.
+  const manageMotion = (element, button, render) => {
+    let visible = !observer;
+    let wanted = !motionPreference.matches;
+    let hovered = false;
+    let focused = false;
+    const update = () => {
+      const running = wanted && visible && !document.hidden && !hovered && !focused;
+      button.textContent = wanted ? "Pause" : "Play";
+      button.setAttribute("aria-label", (wanted ? "Pause" : "Play") + " automatic preview");
+      button.setAttribute("aria-pressed", String(wanted));
+      element.dataset.playing = String(running);
+      render(running);
+    };
+    updates.set(element, (inView) => {
+      visible = inView;
+      if (inView)
+        element.querySelectorAll("img").forEach((img) => {
+          img.loading = "eager";
+        });
+      update();
+    });
+    button.addEventListener("click", () => {
+      wanted = !wanted;
+      focused = false;
+      update();
+    });
+    element.addEventListener("mouseenter", () => {
+      hovered = true;
+      update();
+    });
+    element.addEventListener("mouseleave", () => {
+      hovered = false;
+      update();
+    });
+    element.addEventListener("focusin", () => {
+      focused = true;
+      update();
+    });
+    element.addEventListener("focusout", (event) => {
+      if (!element.contains(event.relatedTarget)) {
+        focused = false;
+        update();
+      }
+    });
+    motionPreference.addEventListener("change", (event) => {
+      if (event.matches) wanted = false;
+      update();
+    });
+    document.addEventListener("visibilitychange", update);
+    observer?.observe(element);
+    update();
+    return () => {
+      wanted = false;
+      update();
+    };
+  };
+
   document.querySelectorAll(".paper-gallery").forEach((gallery) => {
     const slides = [...gallery.querySelectorAll(".paper-slide")];
     if (slides.length < 2) return;
     let index = 0;
+    let timer;
     const controls = document.createElement("div");
     controls.className = "paper-controls";
     const previous = document.createElement("button");
     const next = document.createElement("button");
+    const play = document.createElement("button");
+    play.className = "paper-autoplay";
     const status = document.createElement("span");
-    previous.type = next.type = "button";
-    previous.textContent = "Previous";
-    next.textContent = "Next";
+    previous.type = next.type = play.type = "button";
+    previous.textContent = "‹";
+    next.textContent = "›";
     previous.setAttribute("aria-label", "Previous paper figure");
     next.setAttribute("aria-label", "Next paper figure");
-    status.setAttribute("aria-live", "polite");
     status.setAttribute("aria-atomic", "true");
     const show = (offset) => {
       slides[index].hidden = true;
       index = (index + offset + slides.length) % slides.length;
       slides[index].hidden = false;
       status.textContent = `${index + 1} / ${slides.length}`;
-      status.setAttribute("aria-label", `Figure ${index + 1} of ${slides.length}: ${slides[index].querySelector("figcaption").textContent}`);
+      status.setAttribute("aria-label", `Figure ${index + 1} of ${slides.length}`);
     };
-    previous.addEventListener("click", () => show(-1));
-    next.addEventListener("click", () => show(1));
-    controls.append(previous, status, next);
+    controls.append(previous, status, next, play);
     gallery.append(controls);
     show(0);
+    const pause = manageMotion(gallery, play, (running) => {
+      clearInterval(timer);
+      status.setAttribute("aria-live", running ? "off" : "polite");
+      if (running) timer = setInterval(() => show(1), 4500);
+    });
+    previous.addEventListener("click", () => {
+      pause();
+      show(-1);
+    });
+    next.addEventListener("click", () => {
+      pause();
+      show(1);
+    });
   });
 
-  // Real simulation footage uses a deliberate source frame as its static poster.
-  const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
   document.querySelectorAll(".publication-media img[data-motion-src]").forEach((img) => {
-    const stillSource = img.src;
+    const poster = img.src;
+    const media = img.closest(".publication-media");
     const button = document.createElement("button");
     button.type = "button";
     button.className = "preview-motion";
-    const pause = () => {
-      img.src = stillSource;
-      button.textContent = "Play demo";
-      button.setAttribute("aria-label", "Play demo: " + img.alt);
-      button.setAttribute("aria-pressed", "false");
-    };
-    button.addEventListener("click", () => {
-      if (button.getAttribute("aria-pressed") === "true") pause();
-      else {
-        img.src = img.dataset.motionSrc;
-        button.textContent = "Pause demo";
-        button.setAttribute("aria-label", "Pause demo: " + img.alt);
-        button.setAttribute("aria-pressed", "true");
-      }
+    media.append(button);
+    manageMotion(media, button, (running) => {
+      const source = running ? img.dataset.motionSrc : poster;
+      if (img.src !== new URL(source, location.href).href) img.src = source;
     });
-    motionPreference.addEventListener("change", (event) => {
-      if (event.matches) pause();
-    });
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) pause();
-    });
-    pause();
-    img.closest(".publication-media").append(button);
   });
+
+  // The homepage owns filtering; its section anchors are never search terms.
+  const search = document.getElementById("research-search");
+  if (search) {
+    const section = document.getElementById("research");
+    const entries = [...section.querySelectorAll(".bibliography > li")];
+    const filter = () => {
+      const query = search.value.trim().toLocaleLowerCase();
+      let count = 0;
+      entries.forEach((entry) => {
+        entry.hidden = !entry.textContent.toLocaleLowerCase().includes(query);
+        if (!entry.hidden) count++;
+      });
+      section.querySelectorAll("ol.bibliography").forEach((list) => {
+        const empty = [...list.children].every((entry) => entry.hidden);
+        list.hidden = empty;
+        if (list.previousElementSibling?.matches("h2.bibliography")) list.previousElementSibling.hidden = empty;
+      });
+      document.getElementById("research-count").textContent = `${count} of ${entries.length} papers`;
+      document.getElementById("research-empty").hidden = count > 0;
+    };
+    section.querySelector(".research-filter").hidden = false;
+    search.value = new URLSearchParams(location.search).get("q") || "";
+    search.addEventListener("input", filter);
+    filter();
+  }
 
   // add toggle functionality to abstract, award and bibtex buttons
   $(".links .abstract, .links .award, .links .bibtex").click(function () {
