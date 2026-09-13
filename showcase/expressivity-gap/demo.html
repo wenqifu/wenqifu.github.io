@@ -1,0 +1,647 @@
+<!doctype html>
+<!--
+  THE demo for the K2 project page. One control, one coupled simulation, the whole story.
+
+  Design note, and it is the honest one. The first design for this page assumed the process
+  AVOIDS the region where the two maps disagree, so the gap would be free by never being visited.
+  Simulation refuted that: at q=2^-3 the residual peaks at |h|=3.196 and the filter's mean
+  occupancy is |h|=3.222. The path walks straight through the disagreement.
+  What actually happens is measured here: the two filters drift far apart INSIDE (logit gap
+  0.044 -> 2.08 across k=3..13) while the decoder's sensitivity collapses (0.078 -> 0.00052),
+  so the OUTPUT disagreement stays under 0.02 throughout. That is the mechanism, and this
+  demo shows exactly it: far apart inside, on top of each other outside.
+
+  Scope: this is a steady-state per-step measurement on a long run. The theorem's estimand is
+  the one-step predictive divergence at an explicit growing horizon, which is a different
+  quantity. The page says so rather than implying the demo proves the theorem.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Far apart inside, identical outside</title>
+    <style>
+      :root {
+        --ink: #2e2d29;
+        --soft: #53565a;
+        --rule: #e4e4e4;
+        --paper: #fff;
+        --plot: #fcfcfc;
+        --exact: #4c72b0;
+        --appr: #dd8452;
+        --ok: #55a868;
+        --bad: #c44e52;
+        --acc: #613795;
+        --serif: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+        --sans: "Source Sans 3", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--serif);
+        padding: 18px 20px 26px;
+      }
+      .wrap {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+      }
+      h2 {
+        font-family: var(--serif);
+        font-weight: 650;
+        font-size: 1.55rem;
+        margin-bottom: 0.3rem;
+      }
+      .look {
+        font-size: 1.05rem;
+        color: var(--soft);
+        line-height: 1.5;
+        margin-bottom: 0.7rem;
+      }
+      .look b {
+        color: var(--ink);
+      }
+      .ctl {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.1rem;
+        align-items: center;
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+        padding: 0.7rem 0;
+        margin-bottom: 0.8rem;
+        font-family: var(--sans);
+        font-size: 0.88rem;
+        color: var(--soft);
+      }
+      .ctl label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      input[type="range"] {
+        width: 190px;
+        accent-color: var(--acc);
+        vertical-align: middle;
+      }
+      select,
+      button {
+        font: inherit;
+        font-family: var(--sans);
+        font-size: 0.88rem;
+        padding: 0.3rem 0.7rem;
+        border: 1px solid #d5d5d5;
+        border-radius: 0.3rem;
+        background: #f6f6f6;
+        color: #333;
+        cursor: pointer;
+      }
+      button:hover,
+      select:hover {
+        background: #ececec;
+      }
+      .v {
+        font-variant-numeric: tabular-nums;
+        color: var(--acc);
+        font-weight: 700;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: var(--plot);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        margin-bottom: 0.45rem;
+      }
+      .cap {
+        font-family: var(--sans);
+        font-size: 0.82rem;
+        color: var(--soft);
+        margin-bottom: 1rem;
+        line-height: 1.5;
+      }
+      .cap b {
+        color: var(--ink);
+      }
+      .reads {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 0.9rem;
+        margin: 0.4rem 0 0.8rem;
+      }
+      .r {
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 0.6rem 0.8rem;
+      }
+      .rk {
+        font-family: var(--sans);
+        font-size: 0.7rem;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+      .rv {
+        font-size: 1.75rem;
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        line-height: 1.15;
+      }
+      .rn {
+        font-family: var(--sans);
+        font-size: 0.75rem;
+        color: var(--soft);
+      }
+      .verdict {
+        border-left: 4px solid var(--acc);
+        background: #f7f4fb;
+        padding: 0.7rem 0.9rem;
+        font-size: 1rem;
+        line-height: 1.55;
+        border-radius: 0 5px 5px 0;
+      }
+      .scope {
+        font-family: var(--sans);
+        font-size: 0.78rem;
+        color: var(--soft);
+        margin-top: 0.9rem;
+        line-height: 1.5;
+      }
+      body {
+        padding: 18px 20px;
+      }
+      .look {
+        margin-bottom: 0.65rem;
+      }
+      .ctl {
+        margin-bottom: 0.65rem;
+      }
+      .paired {
+        font-family: var(--sans);
+        font-size: 0.9rem;
+        color: #34734a;
+        margin: 0.3rem 0 0.7rem;
+      }
+      .phasebar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.65rem 0.8rem;
+        margin: 0.1rem 0 0.65rem;
+        border-radius: 7px;
+        background: #f3f5f8;
+        font-family: var(--sans);
+        font-size: 1rem;
+        font-weight: 700;
+      }
+      .phasebar span:last-child {
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--soft);
+      }
+      .methods {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.55rem;
+        margin: 0 0 0.75rem;
+      }
+      .method {
+        padding: 0.65rem 0.75rem;
+        border: 1px solid var(--rule);
+        border-radius: 7px;
+        font-family: var(--sans);
+        font-size: 0.86rem;
+        line-height: 1.35;
+        color: var(--soft);
+        background: #fff;
+        text-align: left;
+        cursor: pointer;
+        width: 100%;
+        appearance: none;
+      }
+      .method b {
+        display: block;
+        color: var(--ink);
+        font-size: 1rem;
+        margin-bottom: 0.15rem;
+      }
+      .method.active {
+        border-color: var(--acc);
+        background: #f7f4fb;
+        box-shadow: inset 0 0 0 1px var(--acc);
+      }
+      .method:hover {
+        border-color: #8c6cab;
+        background: #faf8fc;
+      }
+      .method:focus-visible {
+        outline: 3px solid rgba(97, 55, 149, 0.28);
+        outline-offset: 2px;
+      }
+      .curve-key {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem 1.2rem;
+        align-items: center;
+        margin: 0.2rem 0 0.45rem;
+        font: 700 0.96rem var(--sans);
+      }
+      .curve-key .exact {
+        color: var(--exact);
+      }
+      .curve-key .candidate {
+        color: var(--appr);
+      }
+      .curve-key .switch {
+        color: var(--acc);
+        font-weight: 600;
+      }
+      .reads {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.65rem;
+      }
+      .r {
+        padding: 0.5rem 0.7rem;
+      }
+      .rv {
+        font-size: 1.45rem;
+      }
+      .verdict {
+        font-size: 0.92rem;
+        padding: 0.6rem 0.8rem;
+      }
+      .scope {
+        margin-top: 0.65rem;
+      }
+      @media (max-width: 700px) {
+        body {
+          padding: 13px;
+        }
+        .reads,
+        .methods {
+          grid-template-columns: 1fr;
+        }
+        .ctl {
+          align-items: flex-start;
+          gap: 0.6rem;
+        }
+        .ctl label {
+          width: 100%;
+          display: grid;
+          grid-template-columns: auto minmax(90px, 1fr) auto;
+          gap: 0.45rem;
+        }
+        input[type="range"] {
+          width: 100%;
+          min-width: 0;
+        }
+        .phasebar {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.2rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .phasebar {
+          background: #f7f4fb;
+        }
+      }
+    </style>
+    <style id="learning-typography">
+      /* Shared learning-page typography. Uses installed SF Pro; no font binaries or CDN. */
+      :root {
+        --learning-font: "SF Pro", "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+        --learning-math-font: "SF Pro", "Cambria Math", math;
+      }
+      body,
+      body * {
+        font-family: var(--learning-font) !important;
+      }
+      /* SF Pro has no MATH table or mathematical italic alphabet. Keep glyph fallback. */
+      math,
+      math * {
+        font-family: var(--learning-math-font) !important;
+      }
+    </style>
+  </head>
+  <body data-animation="controlled-switch-loop">
+    <div class="wrap">
+      <h2>One switch out, one switch back: who can track both?</h2>
+      <div class="look">
+        <b>What this is:</b> the hidden state starts positive, flips negative, then switches back positive. The upper plot is each method's internal
+        belief; the lower plot is the probability that is actually scored.
+      </div>
+      <div class="paired"><b>Shared deterministic path:</b> Exact Bayes and every candidate see the same two switches and common innovations.</div>
+
+      <div class="phasebar">
+        <span id="phase">1 · Stable: both methods predict +</span><span>Watch both purple switch markers, then compare recovery.</span>
+      </div>
+
+      <div class="ctl">
+        <label
+          ><span>Switch probability <i>q</i></span>
+          <input type="range" id="k" min="3" max="13" step="1" value="11" aria-label="Switch probability" />
+          <span class="v" id="kv"></span>
+        </label>
+        <button id="replay" type="button">Replay both switches</button>
+      </div>
+
+      <div class="methods" aria-label="Choose a restricted update">
+        <button type="button" class="method active" data-method="tanh" aria-pressed="true">
+          <b>Tanh clamp</b>Smoothly caps old confidence. This is the theorem's proved witness.
+        </button>
+        <button type="button" class="method" data-method="clip" aria-pressed="false">
+          <b>Hard clip</b>Imposes a sharp ceiling. It can be better here; optimality is not claimed.
+        </button>
+        <button type="button" class="method" data-method="affine" aria-pressed="false">
+          <b>Affine update</b>Has no ceiling, so stale confidence can survive the switch.
+        </button>
+      </div>
+
+      <div class="curve-key">
+        <span class="exact">Blue = Exact Bayes</span><span class="candidate">Orange = <span id="curve-method">Tanh clamp</span></span
+        ><span class="switch">vertical purple lines = state switches</span>
+      </div>
+      <canvas id="c1" width="1200" height="350" data-concept-visual></canvas>
+      <div class="cap">
+        <b>Internal belief:</b> blue is Exact Bayes; orange is the selected restricted update. Different curves mean different computations.
+      </div>
+
+      <canvas id="c2" width="1200" height="240"></canvas>
+      <div class="cap"><b>Predicted probability:</b> the same two beliefs after decoding. Only this difference contributes to predictive error.</div>
+
+      <div class="reads">
+        <div class="r">
+          <div class="rk">disagreement inside</div>
+          <div class="rv" id="r1" style="color: var(--bad)"></div>
+          <div class="rn">mean logit gap</div>
+        </div>
+        <div class="r">
+          <div class="rk">disagreement outside</div>
+          <div class="rv" id="r3" style="color: var(--ok)"></div>
+          <div class="rn">mean &Delta;p, what is scored</div>
+        </div>
+        <div class="r">
+          <div class="rk">predictive divergence</div>
+          <div class="rv" id="r4" style="color: var(--ok)"></div>
+          <div class="rn">mean KL(candidate || exact), nats</div>
+        </div>
+      </div>
+
+      <div class="verdict" id="verdict"></div>
+      <div class="scope">
+        This controlled two-switch animation illustrates the mechanism; it does not prove the theorem. It is not a random typical path, and the
+        theorem concerns an explicit growing horizon.
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+      const byId = (id) => document.getElementById(id);
+      const Lof = (q) => Math.log((1 - q) / q);
+      const exactMap = (h, q) => {
+        const e = Math.exp(Math.max(-700, Math.min(700, h)));
+        return Math.log(((1 - q) * e + q) / (q * e + 1 - q));
+      };
+      const sigmoid = (h) => 1 / (1 + Math.exp(-Math.max(-700, Math.min(700, h))));
+      const candidateMap = (h, q, mode) => {
+        const L = Lof(q),
+          s = 1 - 2 * q;
+        if (mode === "tanh") return L * Math.tanh((s * h) / L);
+        if (mode === "clip") return Math.max(-L, Math.min(L, s * h));
+        return s * h;
+      };
+      const bernoulliKL = (a, e) => {
+        a = Math.max(1e-15, Math.min(1 - 1e-15, a));
+        e = Math.max(1e-15, Math.min(1 - 1e-15, e));
+        return a * Math.log(a / e) + (1 - a) * Math.log((1 - a) / (1 - e));
+      };
+      function mulberry32(seed) {
+        return function () {
+          let t = (seed += 0x6d2b79f5);
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      const STEPS = 300,
+        BURN = 600,
+        SWITCH_OUT = 80,
+        SWITCH_BACK = 190,
+        innovations = [];
+      (function () {
+        const rng = mulberry32(3542027);
+        for (let i = 0; i < BURN + STEPS; i++) {
+          const u = Math.max(1e-12, rng()),
+            v = rng();
+          innovations.push(Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v));
+        }
+      })();
+      let current = {},
+        selectedMode = "tanh";
+      function simulate() {
+        const k = +byId("k").value,
+          q = 2 ** -k,
+          mode = selectedMode;
+        let he = 0,
+          ha = 0;
+        for (let i = 0; i < BURN; i++) {
+          const evidence = 2 * (innovations[i] + 1);
+          he = exactMap(he, q) + evidence;
+          ha = candidateMap(ha, q, mode) + evidence;
+        }
+        const exact = [],
+          approx = [],
+          pe = [],
+          pa = [],
+          gap = [],
+          delta = [],
+          kl = [];
+        for (let i = 0; i < STEPS; i++) {
+          const z = i < SWITCH_OUT ? 1 : i < SWITCH_BACK ? -1 : 1,
+            evidence = 2 * (innovations[BURN + i] + z);
+          he = exactMap(he, q) + evidence;
+          ha = candidateMap(ha, q, mode) + evidence;
+          const e = exactMap(he, q),
+            a = candidateMap(ha, q, mode),
+            p = sigmoid(e),
+            r = sigmoid(a);
+          exact.push(he);
+          approx.push(ha);
+          pe.push(p);
+          pa.push(r);
+          gap.push(Math.abs(e - a));
+          delta.push(Math.abs(p - r));
+          kl.push(bernoulliKL(r, p));
+        }
+        current = { k, q, mode, L: Lof(q), exact, approx, pe, pa, gap, delta, kl };
+      }
+      const methodName = (mode) => (mode === "tanh" ? "Tanh clamp" : mode === "clip" ? "Hard clip" : "Affine update");
+      function plot(canvas, a, b, kind, count) {
+        const g = canvas.getContext("2d"),
+          W = canvas.width,
+          H = canvas.height,
+          pad = 68;
+        g.clearRect(0, 0, W, H);
+        g.fillStyle = "#fcfcfc";
+        g.fillRect(0, 0, W, H);
+        let lo, hi;
+        if (kind === "prob") {
+          lo = 0;
+          hi = 1;
+        } else {
+          const m = Math.max(current.L * 1.1, ...a.map(Math.abs), ...b.map(Math.abs));
+          lo = -m;
+          hi = m;
+        }
+        const X = (i) => pad + (i / (STEPS - 1)) * (W - pad - 16),
+          Y = (v) => H - 23 - ((v - lo) / (hi - lo)) * (H - 50);
+        g.fillStyle = "rgba(76,114,176,.045)";
+        g.fillRect(pad, 0, X(SWITCH_OUT) - pad, H);
+        g.fillStyle = "rgba(196,78,82,.045)";
+        g.fillRect(X(SWITCH_OUT), 0, X(SWITCH_BACK) - X(SWITCH_OUT), H);
+        g.fillStyle = "rgba(76,114,176,.045)";
+        g.fillRect(X(SWITCH_BACK), 0, W - X(SWITCH_BACK), H);
+        g.strokeStyle = "#e6e8e7";
+        g.lineWidth = 2;
+        (kind === "prob" ? [0, 0.5, 1] : [-current.L, 0, current.L]).forEach((v) => {
+          g.beginPath();
+          g.moveTo(pad, Y(v));
+          g.lineTo(W - 14, Y(v));
+          g.stroke();
+        });
+        g.strokeStyle = "#613795";
+        g.lineWidth = 2;
+        g.setLineDash([9, 7]);
+        [SWITCH_OUT, SWITCH_BACK].forEach((step) => {
+          g.beginPath();
+          g.moveTo(X(step), 0);
+          g.lineTo(X(step), H);
+          g.stroke();
+        });
+        g.setLineDash([]);
+        const line = (s, color, width) => {
+          g.strokeStyle = color;
+          g.lineWidth = width;
+          g.lineJoin = "round";
+          g.beginPath();
+          s.slice(0, count).forEach((v, i) => (i ? g.lineTo(X(i), Y(v)) : g.moveTo(X(i), Y(v))));
+          g.stroke();
+        };
+        line(a, "#4c72b0", 5);
+        line(b, "#dd8452", 3);
+        const last = Math.max(0, count - 1);
+        [
+          ["#4c72b0", a[last]],
+          ["#dd8452", b[last]],
+        ].forEach(([color, value]) => {
+          g.fillStyle = color;
+          g.beginPath();
+          g.arc(X(last), Y(value), 5, 0, 2 * Math.PI);
+          g.fill();
+        });
+        g.font = "700 27px SF Pro, SF Pro Text, sans-serif";
+        g.fillStyle = "#4c72b0";
+        g.fillText("Exact Bayes", pad + 14, 31);
+        g.fillStyle = "#dd8452";
+        g.fillText(methodName(current.mode), pad + 205, 31);
+        g.font = "700 20px SF Pro, SF Pro Text, sans-serif";
+        g.fillStyle = "#613795";
+        g.fillText("SWITCH TO −", X(SWITCH_OUT) + 10, kind === "prob" ? H / 2 : H - 18);
+        g.fillText("SWITCH BACK +", X(SWITCH_BACK) + 10, kind === "prob" ? H / 2 : H - 18);
+        if (kind !== "prob") {
+          g.fillStyle = "#53779c";
+          g.fillText("hidden state +", pad + 14, H - 18);
+          g.fillStyle = "#a65b5d";
+          g.fillText("hidden state −", X(SWITCH_OUT) + 190, H - 18);
+          g.fillStyle = "#53779c";
+          g.fillText("hidden state +", X(SWITCH_BACK) + 190, H - 18);
+        }
+      }
+      function mean(values, count) {
+        let sum = 0;
+        for (let i = 0; i < count; i++) sum += values[i];
+        return sum / Math.max(1, count);
+      }
+      function render(count) {
+        plot(byId("c1"), current.exact, current.approx, "state", count);
+        plot(byId("c2"), current.pe, current.pa, "prob", count);
+        const gap = mean(current.gap, count),
+          dp = mean(current.delta, count),
+          kl = mean(current.kl, count),
+          after = count > SWITCH_OUT;
+        byId("kv").textContent = "q = 2^−" + current.k;
+        byId("r1").textContent = gap.toFixed(3);
+        byId("r3").textContent = dp.toFixed(4);
+        byId("r4").textContent = kl.toFixed(5);
+        byId("r3").style.color = dp < 0.05 ? "var(--ok)" : "var(--bad)";
+        byId("r4").style.color = dp < 0.05 ? "var(--ok)" : "var(--bad)";
+        byId("phase").textContent =
+          count <= SWITCH_OUT
+            ? "1 · Stable +"
+            : count <= SWITCH_OUT + 35
+              ? "2 · Switch to −: old evidence is wrong"
+              : count <= SWITCH_BACK
+                ? "3 · Recovery −"
+                : count <= SWITCH_BACK + 35
+                  ? "4 · Switch back +: forget again"
+                  : "5 · Recovery +: did it track both?";
+        byId("verdict").innerHTML = !after
+          ? "<b>Before the first switch:</b> every method can look accurate while the environment stays unchanged."
+          : current.mode === "tanh"
+            ? "<b>Tanh clamp:</b> smooth saturation damps the wiggles while still discarding stale confidence in both directions."
+            : current.mode === "clip"
+              ? "<b>Hard clip:</b> its sharp ceiling can look more responsive here. The theorem uses tanh as a witness; it does not claim tanh is optimal."
+              : "<b>Affine update:</b> without a ceiling, old confidence can prevent the first reversal. Looking right again after the switch-back is not the same as tracking both changes.";
+      }
+      function selectMethod() {
+        document.querySelectorAll("[data-method]").forEach((card) => {
+          const active = card.dataset.method === selectedMode;
+          card.classList.toggle("active", active);
+          card.setAttribute("aria-pressed", String(active));
+        });
+        byId("curve-method").textContent = methodName(selectedMode);
+      }
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches,
+        MOVE_MS = 9000,
+        HOLD_MS = 1400;
+      let started = performance.now();
+      function restart() {
+        simulate();
+        selectMethod();
+        started = performance.now();
+        render(reduced ? STEPS : 1);
+      }
+      function animate(now) {
+        if (reduced) return;
+        const elapsed = (now - started) % (MOVE_MS + HOLD_MS),
+          count = elapsed >= MOVE_MS ? STEPS : Math.max(1, Math.min(STEPS, Math.floor((elapsed / MOVE_MS) * STEPS) + 1));
+        render(count);
+        requestAnimationFrame(animate);
+      }
+      byId("k").addEventListener("input", restart);
+      byId("replay").addEventListener("click", restart);
+      document.querySelectorAll("[data-method]").forEach((card) =>
+        card.addEventListener("click", () => {
+          selectedMode = card.dataset.method;
+          restart();
+        })
+      );
+      (function () {
+        const p = new URLSearchParams(location.hash.slice(1)),
+          k = +p.get("k"),
+          m = p.get("mode");
+        if (k >= 3 && k <= 13) byId("k").value = k;
+        if (["tanh", "clip", "affine"].includes(m)) selectedMode = m;
+      })();
+      restart();
+      if (!reduced) requestAnimationFrame(animate);
+    </script>
+  </body>
+</html>
