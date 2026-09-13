@@ -1,0 +1,92 @@
+.about-page {
+  .post-header {
+    margin-bottom: 2rem;
+    .desc {
+      max-width: 65ch;
+      line-height: 1.6;
+    }
+  }
+
+  .about-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+    grid-template-areas: "bio profile";
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .about-bio {
+    grid-area: bio;
+    min-width: 0;
+    line-height: 1.7;
+  }
+  .profile {
+    grid-area: profile;
+    width: 100%;
+    .more-info {
+      font-family: inherit;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .more-info p {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .social {
+    margin: 1.5rem 0 0;
+    text-align: left;
+    .contact-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 1.6rem;
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+      }
+    }
+  }
+
+  .about-section-title {
+    margin: 2.5rem 0 1.25rem;
+    font-size: 1.5rem;
+  }
+  a:focus-visible {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 4px;
+  }
+  .news th {
+    white-space: nowrap;
+    padding-right: 1rem;
+  }
+
+  @media (max-width: 767px) {
+    .about-intro {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "profile" "bio";
+      gap: 1.5rem;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .profile figure {
+      width: 140px;
+      max-width: 42%;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .profile .more-info {
+      margin: 0;
+    }
+    .about-section-title {
+      margin-top: 2rem;
+    }
+  }
+}

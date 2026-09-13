@@ -1,4 +1,55 @@
 $(document).ready(function () {
+  // Reuse decoded local GIFs as still previews, without introducing another media library.
+  const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  document.querySelectorAll('.publication-media img.preview[src$=".gif"]').forEach((img) => {
+    const animatedSource = img.src;
+    if (new URL(animatedSource).origin !== location.origin) return;
+    const initialize = () => {
+      if (!img.naturalWidth) return;
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      let stillSource;
+      try {
+        context.drawImage(img, 0, 0);
+        stillSource = canvas.toDataURL("image/png");
+      } catch {
+        // A redirected image may be cross-origin; retain the original preview.
+        return;
+      }
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "preview-motion";
+      const pause = () => {
+        img.src = stillSource;
+        button.textContent = "Play preview";
+        button.setAttribute("aria-label", "Play preview: " + img.alt);
+        button.setAttribute("aria-pressed", "false");
+      };
+      button.addEventListener("click", () => {
+        if (button.getAttribute("aria-pressed") === "true") pause();
+        else {
+          img.src = animatedSource;
+          button.textContent = "Pause preview";
+          button.setAttribute("aria-label", "Pause preview: " + img.alt);
+          button.setAttribute("aria-pressed", "true");
+        }
+      });
+      motionPreference.addEventListener("change", (event) => {
+        if (event.matches) pause();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) pause();
+      });
+      pause();
+      img.closest(".publication-media").append(button);
+    };
+    if (img.complete) initialize();
+    else img.addEventListener("load", initialize, { once: true });
+  });
+
   // add toggle functionality to abstract, award and bibtex buttons
   $(".links .abstract, .links .award, .links .bibtex").click(function () {
     const entry = $(this).parent().parent();
