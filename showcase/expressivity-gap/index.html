@@ -1,0 +1,880 @@
+<!doctype html>
+<!--
+  PUBLIC PROJECT PAGE for the K2 paper.
+  Built from the ACTUAL SOURCE of robotwin-platform.github.io, cloned read-only to
+  D:\web_capture_data\repos\robotwin-site  (repo RoboTwin-Platform/RoboTwin-Platform.github.io).
+  Reading their index.html + assets/css/main.css gave facts no render or summary showed:
+
+    - only three containers: .title_left, #abstract, #overview. No nav, no <section>, no sticky bar.
+    - EVERY section heading is <h1>, at font-weight NORMAL, 1.8vw. Only the title h1 is bold, 2.5vw.
+    - the content column is width:70.77% with margin auto. That exact number governs h1, p and hr alike.
+    - body text is font-size 1.04vw, line-height 1.6, hyphens:auto, and is LEFT ALIGNED.
+      It is NOT justified; the render merely looked justified because of hyphenation.
+    - links are #613795 purple, turning red with an underline on hover.
+    - <hr class="rounded"> is #f2f2f2, 2px tall, radius 10px, at the same 70.77% width.
+    - images are inline-styled width:70% (40% for the narrow one), display block, margin auto,
+      and the explanatory <p> always sits BELOW the image. There is no figcaption element at all.
+    - buttons are .button (6vw) / .button_large (9vw), height 2.2vw, bg #f2f2f2, text #53565A,
+      radius 0.5vw, Source Sans 3 at 0.9vw.
+    - BibTeX is <p class="bibtex">, Courier on #f2f2f2 with radius 10px, using &nbsp; and <br>.
+      Not <pre>. One block per related paper, each under a bolded label paragraph.
+    - the whole page is sized in vw. That is their choice and it is kept here deliberately.
+
+  Media saved alongside the clone at D:\web_capture_data\repos\robotwin-site\assets\images\.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>How Wrong Can a Good Predictor Be? Diverging Updates with Vanishing Predictive KL</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Wrong Can a Good Predictor Be? Diverging Updates with Vanishing Predictive KL" />
+    <meta
+      property="og:description"
+      content="Accurate posterior prediction need not require accurate Bayesian updates. A fixed-state construction separates diverging internal updates from vanishing predictive KL."
+    />
+    <meta property="og:image" content="assets/teaser.png" />
+    <style>
+      /* ---- tokens copied from robotwin main.css ---- */
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: rgba(255, 255, 255);
+      }
+      a {
+        color: #613795;
+        text-decoration: none;
+      }
+      a:hover {
+        color: red;
+        text-decoration: underline;
+      }
+
+      .title_left > h1 {
+        color: #2e2d29;
+        font-family: "Source Serif 4", serif;
+        font-weight: bold;
+        font-size: 2.5vw;
+        text-align: center;
+        padding-top: 2vw;
+        margin: 0;
+        line-height: 1.25;
+      }
+      .author-container {
+        color: black;
+        font-family: "Source Serif 4", serif;
+        font-weight: normal;
+        font-size: 1vw;
+        padding-top: 1vw;
+        justify-content: center;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        text-align: center;
+        white-space: normal;
+      }
+      .author-name {
+        margin: 0 0em;
+        white-space: normal;
+      }
+      .flex-break {
+        width: 100%;
+      }
+      .affiliation {
+        color: #2e2d29;
+        font-family: "Source Serif 4", serif;
+        font-weight: normal;
+        font-size: 1vw;
+        padding-top: 1vw;
+        padding-bottom: 1vw;
+        text-align: center;
+      }
+      .button-container {
+        color: #53565a;
+        justify-items: center;
+        padding-top: 0.5vw;
+        justify-content: center;
+        display: flex;
+      }
+      .button,
+      .button_large {
+        color: #53565a;
+        font-family: "Source Sans 3", serif;
+        border-radius: 0.5vw;
+        height: 2.2vw;
+        margin-left: 0.4vw;
+        margin-right: 0.4vw;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw;
+        vertical-align: middle;
+        border: solid 0px transparent;
+        background-color: #f2f2f2;
+      }
+      .button {
+        width: 6vw;
+      }
+      .button_large {
+        width: 9vw;
+      }
+      .button.off,
+      .button_large.off {
+        color: #9a9a9a;
+        background-color: #f8f8f8;
+      }
+
+      #abstract h1 {
+        text-align: center;
+      }
+      #abstract h1,
+      #overview h1 {
+        color: #2e2d29;
+        font-family: "Source Serif 4", serif;
+        font-weight: normal;
+        font-size: 1.8vw;
+        padding-top: 2vw;
+        width: 70.77%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #abstract p,
+      #overview p {
+        padding-top: 1vw;
+        color: #2e2d29;
+        font-family: "Source Serif 4", serif;
+        font-weight: normal;
+        font-size: 1.04vw;
+        line-height: 1.6;
+        width: 70.77%;
+        margin-left: auto;
+        margin-right: auto;
+        word-wrap: break-word;
+        hyphens: auto;
+        -webkit-font-smoothing: antialiased;
+      }
+      hr.rounded {
+        background: #f2f2f2;
+        border-radius: 10px;
+        height: 2px;
+        width: 70.77%;
+        margin-left: auto;
+        margin-right: auto;
+        mix-blend-mode: normal;
+        border: none;
+      }
+      .bibtex {
+        font-family: "Courier", monospace;
+        font-size: 0.9vw !important;
+        color: #2f2f2f;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        margin-top: 0.6vw;
+        margin-bottom: 3vw;
+        padding: 0.6vw 0.5vw;
+        hyphens: none !important;
+        line-height: unset !important;
+      }
+      /* our figures are canvases; sized like their <img style="width:70%"> */
+      canvas.fig {
+        display: block;
+        margin: auto;
+        margin-top: 1.5vw;
+        max-width: 100%;
+      }
+      .num {
+        font-variant-numeric: tabular-nums;
+      }
+      table.rt {
+        border-collapse: collapse;
+        width: 70.77%;
+        margin: 1vw auto 0;
+        font-family: "Source Serif 4", serif;
+        font-size: 1.04vw;
+        color: #2e2d29;
+      }
+      table.rt th {
+        font-family: "Source Sans 3", serif;
+        font-size: 0.8vw;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #53565a;
+        text-align: left;
+        padding: 0.5vw 0.6vw;
+        border-bottom: 2px solid #ddd;
+      }
+      table.rt td {
+        padding: 0.55vw 0.6vw;
+        border-bottom: 1px solid #f2f2f2;
+      }
+      table.rt td.r {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+      .st-p {
+        color: #2f7d3a;
+      }
+      .st-m {
+        color: #a8760a;
+      }
+      .st-o {
+        color: #b03030;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        overflow-x: hidden;
+      }
+      body {
+        color: #242522;
+      }
+      .title_left {
+        max-width: 1040px;
+        margin: auto;
+        padding: 28px 20px 0;
+      }
+      .title_left > h1 {
+        font-size: clamp(2.35rem, 5vw, 4.6rem);
+        line-height: 1.04;
+        letter-spacing: -0.035em;
+      }
+      .title_left .author-container {
+        font:
+          600 0.95rem/1.5 "Source Sans 3",
+          sans-serif;
+        color: #656965;
+        padding-top: 1.2rem;
+      }
+      .title_left .contribution {
+        font:
+          500 0.82rem/1.45 "Source Sans 3",
+          sans-serif;
+        color: #7b7f7b;
+        padding-top: 0.15rem;
+        text-align: center;
+      }
+      .button-container {
+        padding-top: 1rem;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .button,
+      .button_large {
+        min-width: 76px;
+        width: auto;
+        height: auto;
+        padding: 8px 18px;
+        font-size: 0.85rem;
+        border-radius: 7px;
+      }
+      #abstract,
+      #overview {
+        max-width: 1040px;
+        margin: auto;
+        padding: 0 20px;
+      }
+      #abstract p,
+      #overview p {
+        width: auto;
+        font-size: clamp(1rem, 1.7vw, 1.25rem);
+      }
+      .pitch {
+        max-width: 850px;
+        margin: 26px auto 0 !important;
+        padding: 0 !important;
+        text-align: center;
+        line-height: 1.5 !important;
+      }
+      .pitch strong {
+        color: #68349a;
+      }
+      .mechanism {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        gap: 16px;
+        align-items: center;
+        margin: 34px 0 24px;
+      }
+      .step {
+        min-height: 130px;
+        padding: 22px;
+        border: 1px solid #e5e8e6;
+        border-radius: 16px;
+        background: #f5f7f6;
+      }
+      .step b {
+        display: block;
+        margin-bottom: 8px;
+        font:
+          750 1rem "Source Sans 3",
+          sans-serif;
+      }
+      .step span {
+        color: #5d625f;
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+      .arrow {
+        color: #9aa09c;
+        font:
+          700 1.7rem "Source Sans 3",
+          sans-serif;
+      }
+      .answer {
+        margin: 0 auto 38px !important;
+        padding: 18px 24px !important;
+        border-left: 5px solid #55a868;
+        background: #f0f7f2;
+        border-radius: 0 12px 12px 0;
+        line-height: 1.5 !important;
+      }
+      .answer strong {
+        font-family: "Source Sans 3", sans-serif;
+      }
+      #overview {
+        border-top: 1px solid #e5e8e6;
+        padding-top: 32px;
+      }
+      #overview h2 {
+        margin: 0;
+        font-size: clamp(1.65rem, 3vw, 2.3rem);
+      }
+      #overview .demo-intro {
+        margin: 8px 0 18px;
+        padding: 0;
+        color: #5d625f;
+        font-size: 1.05rem;
+        line-height: 1.5;
+      }
+      .fixed-k-example {
+        margin-bottom: 42px;
+      }
+      .fixed-k-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin: 22px 0 18px;
+      }
+      .fixed-k-card {
+        padding: 20px;
+        border: 1px solid #e2e6e3;
+        border-radius: 16px;
+        background: #fbfcfb;
+      }
+      .fixed-k-card b {
+        display: block;
+        margin-bottom: 9px;
+        font:
+          750 1.2rem "Source Sans 3",
+          sans-serif;
+        color: #68349a;
+      }
+      .fixed-k-card span {
+        display: block;
+        color: #5d625f;
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+      .fixed-k-card .trend {
+        margin-top: 12px;
+        color: #39704c;
+        font-weight: 700;
+      }
+      .evidence-note {
+        margin: 0 !important;
+        padding: 14px 18px !important;
+        border-left: 5px solid #7a4ba3;
+        background: #f6f1fa;
+        border-radius: 0 10px 10px 0;
+        font-size: 0.98rem !important;
+      }
+      .binary-demo {
+        padding-top: 32px;
+        border-top: 1px solid #e5e8e6;
+      }
+      #overview iframe {
+        display: block;
+        width: 100%;
+        height: 1210px;
+        border: 1px solid #e5e8e6;
+        border-radius: 14px;
+        background: #fff;
+      }
+      #intuition-guide {
+        margin-top: 44px;
+        padding-top: 38px;
+        border-top: 1px solid #e5e8e6;
+      }
+      .guide-head {
+        max-width: 780px;
+        margin: 0 auto 30px;
+        text-align: center;
+      }
+      .guide-head .eyebrow {
+        color: #68349a;
+        font:
+          750 0.78rem/1 "Source Sans 3",
+          sans-serif;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .guide-head h2 {
+        margin: 10px 0 8px;
+        font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+      }
+      .guide-head p {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #5d625f !important;
+        font-size: 1.05rem !important;
+      }
+      .intuition-flow {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .intuition-card {
+        min-width: 0;
+        padding: 20px;
+        border: 1px solid #e2e6e3;
+        border-radius: 16px;
+        background: #fbfcfb;
+      }
+      .intuition-card h3 {
+        margin: 17px 0 7px;
+        color: #2e2d29;
+        font:
+          750 1.28rem/1.2 "Source Sans 3",
+          sans-serif;
+      }
+      .intuition-card p {
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #5d625f !important;
+        font-size: 1rem !important;
+        line-height: 1.45 !important;
+      }
+      .mini-viz {
+        position: relative;
+        height: 132px;
+        overflow: hidden;
+        border-radius: 12px;
+        background: #f1f4f2;
+        font:
+          700 0.76rem/1.2 "Source Sans 3",
+          sans-serif;
+      }
+      .rule-line {
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        height: 7px;
+        border-radius: 99px;
+      }
+      .rule-line.exact {
+        top: 38px;
+        background: #4c72b0;
+        transform: rotate(-7deg);
+      }
+      .rule-line.restricted {
+        top: 83px;
+        background: #dd8452;
+        transform: rotate(8deg);
+      }
+      .rule-name {
+        position: absolute;
+        left: 12px;
+        padding: 4px 7px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.88);
+        color: #454945;
+      }
+      .rule-name.one {
+        top: 11px;
+      }
+      .rule-name.two {
+        bottom: 8px;
+      }
+      .not-equal {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: #7a4ba3;
+        font-size: 2rem;
+      }
+      .confidence-lane {
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        top: 47px;
+        height: 38px;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #eee 0 50%, #dcefe2 50% 100%);
+      }
+      .confidence-lane::after {
+        content: "same answer";
+        position: absolute;
+        right: 4px;
+        top: 46px;
+        color: #39704c;
+        white-space: nowrap;
+      }
+      .belief-dot {
+        position: absolute;
+        top: 10px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.7);
+      }
+      .belief-dot.exact {
+        left: 68%;
+        background: #4c72b0;
+      }
+      .belief-dot.restricted {
+        left: 82%;
+        background: #dd8452;
+      }
+      .mini-label {
+        position: absolute;
+        left: 13px;
+        top: 13px;
+        color: #5d625f;
+      }
+      .gap-row {
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        height: 29px;
+      }
+      .gap-row.internal {
+        top: 29px;
+      }
+      .gap-row.output {
+        top: 81px;
+      }
+      .gap-row span {
+        display: block;
+        margin-bottom: 5px;
+        color: #5d625f;
+      }
+      .gap-bar {
+        display: block;
+        height: 8px;
+        border-radius: 99px;
+        background: #7a4ba3;
+      }
+      .internal .gap-bar {
+        width: 82%;
+      }
+      .output .gap-bar {
+        width: 16%;
+        background: #65a487;
+      }
+      .public-scope {
+        margin: 24px auto 0 !important;
+        padding: 14px 18px !important;
+        border-radius: 10px;
+        background: #f5f7f6;
+        color: #5d625f !important;
+        font-size: 0.98rem !important;
+        text-align: center;
+      }
+      footer {
+        margin-top: 26px;
+        border-top: 1px solid #e5e8e6;
+        padding: 24px 0 45px;
+        color: #5d625f;
+      }
+      footer .scope {
+        margin: 0;
+        padding: 0;
+        font-size: 0.96rem;
+        line-height: 1.55;
+      }
+      details {
+        margin-top: 18px;
+        font-family: "Source Sans 3", sans-serif;
+      }
+      summary {
+        cursor: pointer;
+        color: #613795;
+        font-weight: 700;
+      }
+      pre {
+        overflow: auto;
+        padding: 14px;
+        border-radius: 9px;
+        background: #f4f4f4;
+        color: #333;
+        font-size: 0.82rem;
+        white-space: pre-wrap;
+      }
+      @media (max-width: 760px) {
+        .mechanism {
+          grid-template-columns: 1fr;
+          gap: 9px;
+        }
+        .step {
+          min-height: 0;
+        }
+        .arrow {
+          transform: rotate(90deg);
+          text-align: center;
+        }
+        #overview iframe {
+          height: 1690px;
+        }
+        .title_left > h1 {
+          padding-top: 0;
+          font-size: 2.05rem;
+          letter-spacing: -0.02em;
+        }
+        .title_left > h1 span {
+          overflow-wrap: anywhere;
+        }
+        .title_left .author-container {
+          max-width: 100%;
+          line-height: 1.8;
+        }
+        .button,
+        .button_large {
+          margin: 0;
+          min-width: 70px;
+          padding: 8px 12px;
+        }
+        .intuition-flow {
+          grid-template-columns: 1fr;
+        }
+        .mini-viz {
+          height: 118px;
+        }
+        .fixed-k-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+    <style id="learning-typography">
+      /* Shared learning-page typography. Uses installed SF Pro; no font binaries or CDN. */
+      :root {
+        --learning-font: "SF Pro", "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+        --learning-math-font: "SF Pro", "Cambria Math", math;
+      }
+      body,
+      body * {
+        font-family: var(--learning-font) !important;
+      }
+      /* SF Pro has no MATH table or mathematical italic alphabet. Keep glyph fallback. */
+      math,
+      math * {
+        font-family: var(--learning-math-font) !important;
+      }
+    </style>
+  </head>
+  <body data-pitch="20-second">
+    <div class="title_left">
+      <h1>
+        <span style="color: #65a487">How Wrong Can a Good Predictor Be?</span><br />
+        <span style="font-size: 0.72em">Diverging Updates with<br />Vanishing Predictive KL</span>
+      </h1>
+
+      <div class="author-container">
+        Qifu Wen<sup>*</sup>&nbsp; · &nbsp;Shuaijun Liu<sup>*</sup>&nbsp; · &nbsp;Zihan Zhou&nbsp; · &nbsp;Xi Zeng&nbsp; · &nbsp;Ningxin Su
+      </div>
+      <div class="contribution"><sup>*</sup> Co-first authors</div>
+
+      <div class="button-container">
+        <a id="paper-arxiv" class="button" href="https://arxiv.org/html/2609.11132v1" target="_blank" rel="noopener">arXiv</a>
+        <a id="paper-pdf" class="button" href="https://arxiv.org/pdf/2609.11132v1" target="_blank" rel="noopener">PDF</a>
+        <span class="button off">Code pending</span>
+        <a href="#bibtex" class="button_large">BibTeX</a>
+      </div>
+    </div>
+
+    <div id="abstract">
+      <p class="pitch">
+        A predictor can get the answer right without copying Bayes inside.
+        <strong
+          >For every fixed finite hidden-state count <i>K</i> &ge; 2, we construct a filter whose internal update gap grows without bound, yet its
+          decoded predictions become arbitrarily close to Bayes.</strong
+        >
+      </p>
+      <section class="mechanism" aria-label="The mechanism in three steps">
+        <div class="step">
+          <b>Diverging updates</b><span>At explicit inputs, the two update rules move farther apart as switches become rarer.</span>
+        </div>
+        <div class="arrow" aria-hidden="true">&rarr;</div>
+        <div class="step"><b>Typical paths</b><span>Both filters become confident in the same state on typical rare-switching windows.</span></div>
+        <div class="arrow" aria-hidden="true">&rarr;</div>
+        <div class="step">
+          <b>Vanishing predictive KL</b><span>Softmax is insensitive there, so the remaining internal error becomes predictively cheap.</span>
+        </div>
+      </section>
+      <p class="answer">
+        <strong>Large internal differences need not mean poor predictions.</strong> What matters is how those differences affect the probabilities we
+        use.
+      </p>
+    </div>
+
+    <div id="overview">
+      <section id="fixed-k-example" class="fixed-k-example" aria-labelledby="fixed-k-title">
+        <h2 id="fixed-k-title">The paper's current finite example</h2>
+        <p class="demo-intro">
+          For K = 2, 4, and 8, Exact Bayes and the radial filter see the same observations from equally spaced Gaussian states. Across 4,096 paired
+          stationary paths per setting, centered internal distance grows while exact-to-radial categorical KL falls.
+        </p>
+        <div class="fixed-k-grid" aria-label="The fixed state count sweep">
+          <article class="fixed-k-card">
+            <b>2 hidden states</b><span>The binary case makes the geometry easiest to inspect.</span
+            ><span class="trend">Internal gap up · predictive KL down</span>
+          </article>
+          <article class="fixed-k-card">
+            <b>4 hidden states</b><span>The same opposing trends appear beyond the binary case.</span
+            ><span class="trend">Internal gap up · predictive KL down</span>
+          </article>
+          <article class="fixed-k-card">
+            <b>8 hidden states</b><span>The trend remains visible, but convergence is slower at finite scale.</span
+            ><span class="trend">Internal gap up · predictive KL down</span>
+          </article>
+        </div>
+        <p class="evidence-note">
+          This is a measured illustration, not the proof. The theorem covers every fixed finite state count as switching becomes rarer; it does not
+          give a uniform rate as the state count grows.
+        </p>
+      </section>
+
+      <section class="binary-demo" aria-labelledby="binary-demo-title">
+        <h2 id="binary-demo-title">Binary microscope: what happens around a switch?</h2>
+        <p class="demo-intro">
+          This separate 2-hidden-state visualization uses two imposed switches to make adaptation visible. Every method sees the same evidence. It
+          illustrates a long-horizon recovery question and is not a proved recovery comparison or the fixed-state theorem.
+        </p>
+        <iframe src="demo.html" title="Paired-path binary filtering comparison" scrolling="no"></iframe>
+      </section>
+
+      <section id="intuition-guide" aria-labelledby="intuition-guide-title">
+        <header class="guide-head">
+          <span class="eyebrow">The whole idea</span>
+          <h2 id="intuition-guide-title">Why can different models make the same prediction?</h2>
+          <p>The score does not inspect every internal difference. It sees the final prediction on the paths that actually occur.</p>
+        </header>
+
+        <div class="intuition-flow">
+          <article class="intuition-card">
+            <div class="mini-viz" aria-label="Two visibly different internal update rules">
+              <span class="rule-name one">Exact update</span><span class="rule-line exact"></span>
+              <span class="not-equal" aria-hidden="true">&ne;</span>
+              <span class="rule-line restricted"></span><span class="rule-name two">Restricted update</span>
+            </div>
+            <h3>Different inside</h3>
+            <p>The restricted model cannot copy the exact internal update rule.</p>
+          </article>
+
+          <article class="intuition-card">
+            <div class="mini-viz" aria-label="Both beliefs land on the same confident side">
+              <span class="mini-label">Typical evidence pushes both right</span>
+              <span class="confidence-lane"><i class="belief-dot exact"></i><i class="belief-dot restricted"></i></span>
+            </div>
+            <h3>Same confident side</h3>
+            <p>On the paths that dominate, both models become confident in the same answer.</p>
+          </article>
+
+          <article class="intuition-card">
+            <div class="mini-viz" aria-label="A large internal gap becomes a small prediction gap">
+              <span class="gap-row internal"><span>Internal gap</span><i class="gap-bar"></i></span>
+              <span class="gap-row output"><span>Prediction gap</span><i class="gap-bar"></i></span>
+            </div>
+            <h3>Small difference outside</h3>
+            <p>The probability decoder is flat there, so the remaining internal gap costs little.</p>
+          </article>
+        </div>
+
+        <p class="public-scope">
+          The paper proves a diverging update gap with vanishing predictive KL at selected inputs, and expected terminal KL convergence along
+          stationary Gaussian HMM paths. As switches become rarer, the theorem's growing observation windows contain almost no switches. The result is
+          not uniform as the number of states grows.
+        </p>
+      </section>
+
+      <footer>
+        <p class="scope">
+          Tanh is the theorem's constructed example, not a claimed optimum. Other simple updates can also predict accurately in this regime. The
+          result is not a general criterion for harmless compression.
+        </p>
+        <details id="bibtex">
+          <summary>BibTeX</summary>
+          <pre>
+@misc{wen2026expressivity,
+  title={How Wrong Can a Good Predictor Be? Diverging Updates with Vanishing Predictive KL},
+  author={Wen, Qifu and Liu, Shuaijun and Zhou, Zihan and Zeng, Xi and Su, Ningxin},
+  year={2026},
+  note={Manuscript}
+}</pre
+          >
+        </details>
+      </footer>
+    </div>
+
+    <script type="text/plain" hidden>
+      "use strict";
+      const $=id=>document.getElementById(id);
+      const F=(h,q)=>Math.log(((1-q)*Math.exp(h)+q)/(q*Math.exp(h)+(1-q)));
+      const G=(h,q)=>{const L=Math.log((1-q)/q);return L*Math.tanh((1-2*q)*h/L);};
+      const sig=h=>1/(1+Math.exp(-h));
+      const L_=q=>Math.log((1-q)/q);
+      const INK='#2E2D29', SOFT='#53565A', GRID='#ececec', AX='#c9c9c9';
+      const C={b:'#4c72b0',o:'#dd8452',g:'#55a868',r:'#c44e52'};
+      const SUP='⁰¹²³⁴⁵⁶⁷⁸⁹';
+      const pow10=e=>'10'+(e<0?'⁻':'')+String(Math.abs(e)).split('').map(d=>SUP[+d]).join('');
+      function base(id){const c=$(id),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);
+        g.font='17px SF Pro, SF Pro Text, sans-serif';return[c,g,c.width,c.height];}
+      function xaxis(g,W,H,AXH,ticks,X,label){
+        const yb=H-AXH; g.strokeStyle=AX; g.lineWidth=1.2;
+        g.beginPath();g.moveTo(0,yb);g.lineTo(W,yb);g.stroke();
+        g.fillStyle=SOFT;g.textAlign='center';g.textBaseline='top';
+        ticks.forEach(t=>{const x=X(t);g.beginPath();g.moveTo(x,yb);g.lineTo(x,yb+5);g.stroke();
+          g.fillText(String(t),x,yb+9);});
+        if(label) g.fillText(label,W/2,yb+34);        // own line, never on the tick row
+        g.textAlign='left';g.textBaseline='alphabetic';
+      }
+      function ylabel(g,txt,y){g.fillStyle=SOFT;g.textAlign='left';g.textBaseline='middle';
+        g.fillText(txt,10,y);g.textBaseline='alphabetic';}
+
+
+
+
+      (function(){                                   /* two endpoints */
+        const [c,g,W,H]=base('fig-endpoints'), AXH=64, PH=H-AXH, PADL=190;
+        const rows=[['tanh clamp',6.0e-3,6.36e-3,C.b],['hard clip',1.3e-3,1.37e-3,C.g],
+                    ['affine',7.9e-2,5.53,C.o],['identity',8.5e-2,14.54,C.r]];
+        const lo=Math.log10(8e-4),hi=Math.log10(22);
+        const X=v=>PADL+(Math.log10(v)-lo)/(hi-lo)*(W-PADL-50);
+        g.strokeStyle=GRID;g.lineWidth=1.2;
+        for(let e=-3;e<=1;e++){const x=X(Math.pow(10,e));g.beginPath();g.moveTo(x,40);g.lineTo(x,PH);g.stroke();}
+        rows.forEach((r,i)=>{
+          const y=86+i*((PH-118)/(rows.length-1));
+          g.fillStyle=r[3];g.font='19px SF Pro, SF Pro Text, sans-serif';g.textAlign='left';g.fillText(r[0],14,y+6);
+          g.strokeStyle=r[3];g.lineWidth=2;g.setLineDash([5,4]);
+          g.beginPath();g.moveTo(X(r[1]),y);g.lineTo(X(r[2])-12,y);g.stroke();g.setLineDash([]);
+          g.fillStyle=r[3];g.beginPath();g.arc(X(r[1]),y,7,0,7);g.fill();
+          g.beginPath();g.moveTo(X(r[2]),y);g.lineTo(X(r[2])-15,y-8);g.lineTo(X(r[2])-15,y+8);g.closePath();g.fill();
+        });
+        g.strokeStyle=AX;g.lineWidth=1.2;g.beginPath();g.moveTo(0,PH);g.lineTo(W,PH);g.stroke();
+        g.fillStyle=SOFT;g.font='17px SF Pro, SF Pro Text, sans-serif';g.textAlign='center';g.textBaseline='top';
+        [-3,-2,-1,0,1].forEach(e=>{g.fillText(pow10(e),X(Math.pow(10,e)),PH+9);});
+        g.fillText('final-step divergence (nats)',(PADL+W)/2,PH+36);
+        g.textAlign='left';g.textBaseline='alphabetic';g.font='18px SF Pro, SF Pro Text, sans-serif';
+        g.fillStyle=SOFT;g.fillText('\u25CF  theorem horizon H(q)          \u25B6  long horizon \u23088/q\u2309',PADL,32);
+      })();
+    </script>
+  </body>
+</html>
