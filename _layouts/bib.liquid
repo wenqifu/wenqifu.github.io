@@ -26,7 +26,21 @@
         {% endif %}
       {% endif %}
       {% assign paper_figures = site.data.publication_previews[entry.key] %}
-      {% if paper_figures %}
+      {% assign paper_demo = site.data.publication_demos[entry.key] %}
+      {% if paper_demo %}
+        <figure>
+          <img
+            class="preview rounded"
+            src="{{ paper_demo.poster | prepend: '/assets/img/publication_preview/' | relative_url }}"
+            data-motion-src="{{ paper_demo.animation | prepend: '/assets/img/publication_preview/' | relative_url }}"
+            alt="{{ paper_demo.caption | escape }}"
+            width="640"
+            height="420"
+            loading="lazy"
+          >
+          <figcaption class="paper-caption">{{ paper_demo.caption }}</figcaption>
+        </figure>
+      {% elsif paper_figures %}
         {% include publication_preview.liquid figures=paper_figures title=entry.title %}
       {% elsif entry.key == 'liu2026ocean' %}
         <figure>

@@ -1,0 +1,8 @@
+zhou2026srjepa:
+  poster: demos/srjepa-poster.png
+  animation: demos/srjepa-masking.gif
+  caption: "Paper-figure animation: complete scene, occupied targets, visible context."
+liu2026cowam:
+  poster: demos/cowam-poster.png
+  animation: demos/cowam-lift-pot.gif
+  caption: "Sampled paper rollout frames: Future-Consensus versus CoWAM pot lifting."
