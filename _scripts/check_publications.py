@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -15,6 +16,8 @@ TOP_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+):\s*$")
 ASSET_RE = re.compile(r"^\s+(?:image|poster|animation):\s*['\"]?([^'\"\s]+)")
 TITLE_RE = re.compile(r"\btitle\s*=\s*\{([^}]+)\}", re.IGNORECASE | re.DOTALL)
 LIQUID_COMMENT_RE = re.compile(r"\{%\s*comment\s*%\}.*?\{%\s*endcomment\s*%\}", re.DOTALL)
+IMAGE_INPUT_SUFFIXES = {".jpg", ".jpeg", ".png", ".tiff", ".gif"}
+VALIDATED_IMAGE_SUFFIXES = IMAGE_INPUT_SUFFIXES | {".webp"}
 
 
 def bib_keys(path: Path) -> list[str]:
@@ -41,7 +44,7 @@ def yaml_inventory(path: Path) -> tuple[set[str], list[str]]:
     return keys, assets
 
 
-def audit(root: Path, site: Path | None = None) -> list[str]:
+def audit(root: Path, site: Path | None = None, validate_images: bool = False) -> list[str]:
     failures: list[str] = []
     public_path = root / "_bibliography/papers.bib"
     paused_path = root / "_bibliography/ecrl-paused.bib"
@@ -79,6 +82,13 @@ def audit(root: Path, site: Path | None = None) -> list[str]:
             failures.append(f"{key}: no preview metadata or legacy preview")
 
     preview_root = root / "assets/img/publication_preview"
+    image_inputs: dict[Path, list[Path]] = {}
+    for path in (root / "assets/img").rglob("*"):
+        if path.is_file() and path.suffix.lower() in IMAGE_INPUT_SUFFIXES:
+            image_inputs.setdefault(path.with_suffix(""), []).append(path)
+    for paths in image_inputs.values():
+        if len(paths) > 1:
+            failures.append("image derivative collision: " + ", ".join(str(path.relative_to(root)) for path in paths))
     for asset in figure_assets + demo_assets:
         path = preview_root / asset
         if not path.is_file():
@@ -112,6 +122,16 @@ def audit(root: Path, site: Path | None = None) -> list[str]:
             for key in sorted(paused):
                 if f'id="{key}"' in html:
                     failures.append(f"{key}: paused entry rendered on homepage")
+        if validate_images:
+            generated = [
+                path
+                for path in (site / "assets/img/publication_preview").rglob("*")
+                if path.is_file() and path.suffix.lower() in VALIDATED_IMAGE_SUFFIXES
+            ]
+            for path in generated:
+                result = subprocess.run(["identify", str(path)], capture_output=True, text=True, check=False)
+                if result.returncode:
+                    failures.append(f"generated image cannot be decoded: {path.relative_to(site)}")
     return failures
 
 
@@ -119,8 +139,9 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--site", type=Path)
+    parser.add_argument("--validate-images", action="store_true")
     args = parser.parse_args()
-    failures = audit(args.root.resolve(), args.site.resolve() if args.site else None)
+    failures = audit(args.root.resolve(), args.site.resolve() if args.site else None, args.validate_images)
     if failures:
         print("PUBLICATION INVENTORY FAILED")
         for failure in failures:

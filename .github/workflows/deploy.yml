@@ -95,7 +95,7 @@ jobs:
           export JEKYLL_ENV=production
           bundle exec jekyll build
       - name: Check publication inventory 📚
-        run: python _scripts/check_publications.py --site _site
+        run: python _scripts/check_publications.py --site _site --validate-images
       - name: Purge unused CSS 🧹
         run: |
           npm install -g purgecss
