@@ -14,7 +14,19 @@
         rel="noopener"
         aria-label="Open full-size figure: {{ slide.caption | escape }}"
       >
-        <img class="preview" src="{{ image_path | relative_url }}" alt="{{ slide.caption | escape }}" loading="lazy" decoding="async">
+        {% if slide.image contains '.png' %}
+          {% assign responsive_base = image_path | remove: '.png' %}
+          <picture>
+            <source
+              type="image/webp"
+              srcset="{{ responsive_base | append: '-480.webp' | relative_url }} 480w, {{ responsive_base | append: '-800.webp' | relative_url }} 800w, {{ responsive_base | append: '-1400.webp' | relative_url }} 1400w"
+              sizes="(min-width: 768px) 340px, 95vw"
+            >
+            <img class="preview" src="{{ image_path | relative_url }}" alt="{{ slide.caption | escape }}" loading="lazy" decoding="async">
+          </picture>
+        {% else %}
+          <img class="preview" src="{{ image_path | relative_url }}" alt="{{ slide.caption | escape }}" loading="lazy" decoding="async">
+        {% endif %}
       </a>
       <figcaption class="paper-caption">
         {% if slide.kind -%}

@@ -1,8 +1,12 @@
 zhou2026srjepa:
-  poster: demos/srjepa-poster.png
+  poster: demos/srjepa-poster.webp
   animation: demos/srjepa-masking.gif
   caption: "Paper-figure animation: complete scene, occupied targets, visible context."
 liu2026cowam:
-  poster: demos/cowam-poster.png
+  poster: demos/cowam-poster.webp
   animation: demos/cowam-lift-pot.gif
   caption: "Sampled paper rollout frames: Future-Consensus versus CoWAM pot lifting."
+liu2026ocean:
+  poster: demos/oceanenv-poster.webp
+  animation: demos/oceanenv.webp
+  caption: "OceanEnv marine robotics simulation."
