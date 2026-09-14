@@ -68,6 +68,14 @@ class PublicationInventoryTest(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("paused title exposed", result.stdout)
 
+    def test_derivative_name_collision_fails(self):
+        root = self.fixture()
+        duplicate = root / "assets/img/publication_preview/statz.gif"
+        duplicate.write_bytes((root / "assets/img/publication_preview/statz.png").read_bytes())
+        result = self.run_check(root)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("image derivative collision", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
