@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+"""Fail-closed publication inventory and preview-asset checks."""
+
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+from pathlib import Path
+
+
+ENTRY_RE = re.compile(r"@(?!comment\b)\w+\s*\{\s*([^,\s]+)\s*,", re.IGNORECASE)
+FIELD_RE = re.compile(r"^\s*(\w+)\s*=\s*\{(.*)\}\s*,?\s*$")
+TOP_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+):\s*$")
+ASSET_RE = re.compile(r"^\s+(?:image|poster|animation):\s*['\"]?([^'\"\s]+)")
+
+
+def bib_keys(path: Path) -> list[str]:
+    return ENTRY_RE.findall(path.read_text(encoding="utf-8"))
+
+
+def bib_entries(path: Path) -> dict[str, str]:
+    text = path.read_text(encoding="utf-8")
+    starts = list(ENTRY_RE.finditer(text))
+    return {
+        match.group(1): text[match.start() : (starts[index + 1].start() if index + 1 < len(starts) else len(text))]
+        for index, match in enumerate(starts)
+    }
+
+
+def yaml_inventory(path: Path) -> tuple[set[str], list[str]]:
+    keys: set[str] = set()
+    assets: list[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if match := TOP_KEY_RE.match(line):
+            keys.add(match.group(1))
+        if match := ASSET_RE.match(line):
+            assets.append(match.group(1))
+    return keys, assets
+
+
+def audit(root: Path, site: Path | None = None) -> list[str]:
+    failures: list[str] = []
+    public_path = root / "_bibliography/papers.bib"
+    paused_path = root / "_bibliography/ecrl-paused.bib"
+    public_list = bib_keys(public_path)
+    paused_list = bib_keys(paused_path)
+    public, paused = set(public_list), set(paused_list)
+    if len(public_list) != len(public):
+        failures.append("papers.bib contains duplicate keys")
+    if len(paused_list) != len(paused):
+        failures.append("paused bibliography contains duplicate keys")
+    for key in sorted(public & paused):
+        failures.append(f"{key}: cannot be public and paused")
+
+    figures, figure_assets = yaml_inventory(root / "_data/publication_previews.yml")
+    demos, demo_assets = yaml_inventory(root / "_data/publication_demos.yml")
+    metadata_keys = figures | demos
+    for key in sorted(metadata_keys - public - paused):
+        failures.append(f"{key}: preview metadata has no public or paused bibliography entry")
+
+    entries = bib_entries(public_path)
+    for key in sorted(public):
+        has_legacy_preview = re.search(r"^\s*preview\s*=", entries[key], re.MULTILINE) is not None
+        if key not in metadata_keys and not has_legacy_preview:
+            failures.append(f"{key}: no preview metadata or legacy preview")
+
+    preview_root = root / "assets/img/publication_preview"
+    for asset in figure_assets + demo_assets:
+        path = preview_root / asset
+        if not path.is_file():
+            failures.append(f"missing preview asset: {asset}")
+
+    demo_paths = [preview_root / asset for asset in demo_assets]
+    animations = [
+        path
+        for path in demo_paths
+        if "poster" not in path.stem and path.suffix.lower() in {".gif", ".webp"} and path.is_file()
+    ]
+    posters = [path for path in demo_paths if "poster" in path.stem and path.is_file()]
+    for path in posters:
+        if path.stat().st_size > 30_000:
+            failures.append(f"demo poster exceeds 30 KB: {path.name} ({path.stat().st_size} bytes)")
+    for path in animations:
+        if path.stat().st_size > 700_000:
+            failures.append(f"demo animation exceeds 700 KB: {path.name} ({path.stat().st_size} bytes)")
+    if sum(path.stat().st_size for path in animations) > 1_300_000:
+        failures.append("combined demo animations exceed 1.3 MB")
+
+    if site is not None:
+        index = site / "index.html"
+        if not index.is_file():
+            failures.append(f"built homepage missing: {index}")
+        else:
+            html = index.read_text(encoding="utf-8")
+            rendered = re.findall(r'id="([^"]+)"\s+class="publication-body"', html)
+            if set(rendered) != public or len(rendered) != len(public):
+                failures.append(f"built homepage inventory differs: expected {sorted(public)}, found {rendered}")
+            for key in sorted(paused):
+                if f'id="{key}"' in html:
+                    failures.append(f"{key}: paused entry rendered on homepage")
+    return failures
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--site", type=Path)
+    args = parser.parse_args()
+    failures = audit(args.root.resolve(), args.site.resolve() if args.site else None)
+    if failures:
+        print("PUBLICATION INVENTORY FAILED")
+        for failure in failures:
+            print(f"- {failure}")
+        return 1
+    print(f"PUBLICATION INVENTORY OK: {len(bib_keys(args.root / '_bibliography/papers.bib'))} public papers")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
