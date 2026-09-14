@@ -4,4 +4,6 @@ These GIFs are retained as recoverable source previews. They moved outside `asse
 
 - `ecrl.gif`: paused ECRL preview.
 - `grades.gif`: superseded GradES preview.
+- `pose.gif`: paused Pose preview; Ubuntu ImageMagick rejected its generated WebP derivatives.
+- `statpapers.gif`: superseded estimation preview; Ubuntu ImageMagick rejected its generated WebP derivatives.
 - `statz.gif`: superseded Clicks preview.
