@@ -13,7 +13,7 @@ class PublicationInventoryTest(unittest.TestCase):
     def fixture(self) -> Path:
         temp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, temp, True)
-        for relative in ["_bibliography", "_data", "assets/img/publication_preview"]:
+        for relative in ["_bibliography", "_data", "_news", "_projects", "_pages", "assets/img/publication_preview"]:
             shutil.copytree(ROOT / relative, temp / relative)
         return temp
 
@@ -59,6 +59,14 @@ class PublicationInventoryTest(unittest.TestCase):
         result = self.run_check(root)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("demo animation exceeds 700 KB", result.stdout)
+
+    def test_visible_paused_title_fails(self):
+        root = self.fixture()
+        news = root / "_news/paused-paper.md"
+        news.write_text("---\nlayout: post\n---\nPose as a Lens: Diagnosing Self-Supervised Visual Representations Through Frozen Keypoint Probing\n", encoding="utf-8")
+        result = self.run_check(root)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("paused title exposed", result.stdout)
 
 
 if __name__ == "__main__":

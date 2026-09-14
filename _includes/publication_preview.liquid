@@ -14,7 +14,7 @@
         rel="noopener"
         aria-label="Open full-size figure: {{ slide.caption | escape }}"
       >
-        {% if slide.image contains '.png' %}
+        {% if slide.image contains '.png' and slide.image != 'statz.png' %}
           {% assign responsive_base = image_path | remove: '.png' %}
           <picture>
             <source
