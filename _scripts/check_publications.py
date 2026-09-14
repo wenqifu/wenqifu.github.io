@@ -13,6 +13,8 @@ ENTRY_RE = re.compile(r"@(?!comment\b)\w+\s*\{\s*([^,\s]+)\s*,", re.IGNORECASE)
 FIELD_RE = re.compile(r"^\s*(\w+)\s*=\s*\{(.*)\}\s*,?\s*$")
 TOP_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+):\s*$")
 ASSET_RE = re.compile(r"^\s+(?:image|poster|animation):\s*['\"]?([^'\"\s]+)")
+TITLE_RE = re.compile(r"\btitle\s*=\s*\{([^}]+)\}", re.IGNORECASE | re.DOTALL)
+LIQUID_COMMENT_RE = re.compile(r"\{%\s*comment\s*%\}.*?\{%\s*endcomment\s*%\}", re.DOTALL)
 
 
 def bib_keys(path: Path) -> list[str]:
@@ -52,6 +54,17 @@ def audit(root: Path, site: Path | None = None) -> list[str]:
         failures.append("paused bibliography contains duplicate keys")
     for key in sorted(public & paused):
         failures.append(f"{key}: cannot be public and paused")
+
+    public_surfaces = list((root / "_news").glob("*.md")) + list((root / "_projects").glob("*.md"))
+    about = root / "_pages/about.md"
+    if about.is_file():
+        public_surfaces.append(about)
+    paused_titles = TITLE_RE.findall(paused_path.read_text(encoding="utf-8"))
+    for surface in public_surfaces:
+        visible_source = LIQUID_COMMENT_RE.sub("", surface.read_text(encoding="utf-8"))
+        for title in paused_titles:
+            if " ".join(title.split()) in " ".join(visible_source.split()):
+                failures.append(f"paused title exposed in {surface.relative_to(root)}: {title}")
 
     figures, figure_assets = yaml_inventory(root / "_data/publication_previews.yml")
     demos, demo_assets = yaml_inventory(root / "_data/publication_demos.yml")
