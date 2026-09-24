@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gap grows, KL vanishes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #1b2440;
+        --red: #d1495b;
+        --blue: #2e86ab;
+        --paper: #fbf8f3;
+        --muted: #5a6275;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 18px;
+        font-family: Inter, system-ui, sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+      }
+      h3 {
+        font-family: Fraunces, Georgia, serif;
+        margin: 0 0 4px;
+        font-size: 1.35rem;
+      }
+      .lede {
+        color: var(--muted);
+        margin: 0 0 14px;
+        font-size: 0.95rem;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        align-items: center;
+        background: #fff;
+        border-radius: 12px;
+        padding: 12px 16px;
+        box-shadow: 0 2px 12px rgba(27, 36, 64, 0.07);
+      }
+      .controls label {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      input[type="range"] {
+        width: min(340px, 60vw);
+        accent-color: var(--red);
+        vertical-align: middle;
+      }
+      .seg button {
+        border: 1px solid #cfd3dc;
+        background: #fff;
+        padding: 5px 11px;
+        border-radius: 8px;
+        margin-right: 4px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .seg button.on {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+        margin-top: 14px;
+      }
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card h4 b {
+        display: block;
+        color: var(--ink);
+        font-size: 1rem;
+        margin-bottom: 2px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 2px 12px rgba(27, 36, 64, 0.07);
+      }
+      .card h4 {
+        margin: 0 0 6px;
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      canvas {
+        width: 100%;
+        display: block;
+      }
+      .readouts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .ro {
+        background: #fff;
+        border-radius: 12px;
+        padding: 10px 12px;
+        border-top: 4px solid var(--red);
+      }
+      .ro.b {
+        border-top-color: var(--blue);
+      }
+      .ro.k {
+        border-top-color: var(--ink);
+      }
+      .ro .v {
+        font-family: Fraunces, Georgia, serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+      .ro .n {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .scope {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 12px;
+        line-height: 1.45;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Far apart inside, the same outside</h3>
+    <p class="lede">
+      Exact Bayesian mixing Φ<sub>q</sub> and the radial filter R<sub>q</sub> act on the same input z<sub>q</sub>. Lower the switch probability q and
+      watch the internal gap grow while the predictions stay the same.
+    </p>
+    <div class="controls">
+      <div>
+        <label for="k"
+          >switch probability q = 2<sup>−<span id="kv"></span></sup></label
+        ><br /><input type="range" id="k" min="2" max="60" step="1" value="12" />
+      </div>
+      <div><label>hidden states K</label><br /><span class="seg" id="Kseg"></span></div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h4>
+          <b style="color: var(--red)">1. Inside: the models disagree more and more</b>How far apart the two models' internal scores are. Solid:
+          actual gap. Dashed: the minimum the paper proves.
+        </h4>
+        <canvas id="inside" height="260"></canvas>
+      </div>
+      <div class="card">
+        <h4>
+          <b style="color: var(--blue)">2. Outside: their predictions agree</b>How different the two predicted probabilities are (KL divergence; 0 =
+          identical).
+        </h4>
+        <canvas id="outside" height="260"></canvas>
+      </div>
+      <div class="card">
+        <h4><b>3. The predictions themselves, at this q</b>Probability each model gives each hidden state. The bars match.</h4>
+        <canvas id="bars" height="260"></canvas>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro">
+        <div class="v" id="rD"></div>
+        <div class="n">internal gap D<sub>q</sub>(z<sub>q</sub>), nats of logit</div>
+      </div>
+      <div class="ro b">
+        <div class="v" id="rKL"></div>
+        <div class="n">KL(exact ‖ radial), nats</div>
+      </div>
+      <div class="ro k">
+        <div class="v" id="rR"></div>
+        <div class="n">gap ÷ L<sub>K</sub>(q); theorem limit c* = 0.0379</div>
+      </div>
+    </div>
+    <p class="scope">
+      Computed exactly from Theorem 1 (Definition 1 maps at the witness z<sub>q</sub> = L(¼, −¼, 0, …)). It illustrates the map-level statement only:
+      the gap grows like L<sub>K</sub>(q), which is logarithmic in 1/q, and the KL need not fall monotonically at moderate q. The path-level result
+      (Theorem 2) is not shown here.
+    </p>
+    <script src="demo-math.js"></script>
+    <script>
+      "use strict";
+      const $ = (id) => document.getElementById(id),
+        M = window.DemoMath;
+      const COL = { ink: "#1b2440", red: "#d1495b", blue: "#2e86ab", grid: "#e7e9ef", muted: "#5a6275" };
+      let K = 3;
+      const seg = $("Kseg");
+      [2, 3, 4, 8].forEach((v) => {
+        const b = document.createElement("button");
+        b.textContent = v;
+        b.onclick = () => {
+          K = v;
+          draw();
+        };
+        seg.appendChild(b);
+      });
+      function fit(c) {
+        const r = window.devicePixelRatio || 1,
+          w = c.clientWidth,
+          h = +(c.dataset.h || (c.dataset.h = c.getAttribute("height")));
+        c.style.height = h + "px";
+        c.width = w * r;
+        c.height = h * r;
+        const x = c.getContext("2d");
+        x.setTransform(r, 0, 0, r, 0, 0);
+        return [x, w, h];
+      }
+      const KS = [];
+      for (let i = 2; i <= 60; i += 0.5) KS.push(i);
+      function axes(x, w, h, pad, X) {
+        x.font = "11px Inter,sans-serif";
+        x.strokeStyle = COL.grid;
+        x.fillStyle = COL.muted;
+        x.lineWidth = 1;
+        for (let kk = 10; kk <= 60; kk += 10) {
+          x.beginPath();
+          x.moveTo(X(kk), pad.t);
+          x.lineTo(X(kk), h - pad.b);
+          x.stroke();
+          x.fillText("2^-" + kk, X(kk) - 12, h - pad.b + 14);
+        }
+        x.fillText("switching gets rarer →", w - pad.r - 120, h - 4);
+      }
+      function curve(x, pts, f, X, color, dash) {
+        x.beginPath();
+        x.setLineDash(dash || []);
+        x.strokeStyle = color;
+        x.lineWidth = 2.6;
+        pts.forEach((p, i) => (i ? x.lineTo : x.moveTo).call(x, X(KS[i]), f(p)));
+        x.stroke();
+        x.setLineDash([]);
+      }
+      function marker(x, X, k, y, color, pad, h) {
+        x.strokeStyle = COL.ink;
+        x.lineWidth = 1;
+        x.beginPath();
+        x.moveTo(X(k), pad.t);
+        x.lineTo(X(k), h - pad.b);
+        x.stroke();
+        x.fillStyle = color;
+        x.beginPath();
+        x.arc(X(k), y, 5, 0, 7);
+        x.fill();
+      }
+      function sweep(k) {
+        const pts = KS.map((kk) => M.point(kk, K)),
+          p = M.point(k, K),
+          pad = { l: 40, r: 26, t: 10, b: 34 };
+        {
+          const [x, w, h] = fit($("inside")),
+            W = w - pad.l - pad.r,
+            H = h - pad.t - pad.b,
+            X = (kk) => pad.l + ((kk - 2) / 58) * W;
+          const dMax = Math.max(...pts.map((q) => q.D)) * 1.1,
+            Y = (d) => pad.t + H - (d / dMax) * H;
+          axes(x, w, h, pad, X);
+          for (let i = 0; i <= 4; i++) {
+            const d = (dMax * i) / 4;
+            x.fillText(d.toFixed(1), 4, Y(d) + 4);
+          }
+          curve(x, pts, (q) => Y(q.lower), X, COL.red, [6, 5]);
+          curve(x, pts, (q) => Y(q.D), X, COL.red);
+          marker(x, X, k, Y(p.D), COL.red, pad, h);
+        }
+        {
+          const [x, w, h] = fit($("outside")),
+            W = w - pad.l - pad.r,
+            H = h - pad.t - pad.b,
+            X = (kk) => pad.l + ((kk - 2) / 58) * W;
+          const lo = -8,
+            hi = -1,
+            Y = (v) => pad.t + H - ((Math.log10(Math.max(v, 1e-8)) - lo) / (hi - lo)) * H;
+          axes(x, w, h, pad, X);
+          for (let e = lo; e <= hi; e += 1) x.fillText(e === -1 ? "0.1" : "1e" + e, 2, Y(10 ** e) + 4);
+          curve(x, pts, (q) => Y(q.KL), X, COL.blue);
+          marker(x, X, k, Y(p.KL), COL.blue, pad, h);
+        }
+        return p;
+      }
+      function bars(p) {
+        const [x, w, h] = fit($("bars")),
+          pad = { l: 30, r: 10, t: 10, b: 36 },
+          W = w - pad.l - pad.r,
+          H = h - pad.t - pad.b,
+          n = p.pe.length,
+          gw = W / n,
+          bw = gw * 0.34;
+        x.font = "11px Inter,sans-serif";
+        for (let i = 0; i < n; i++) {
+          [
+            [p.pe[i], COL.ink, 0],
+            [p.pa[i], COL.blue, 1],
+          ].forEach(([v, c, j]) => {
+            x.fillStyle = c;
+            const bh = v * H;
+            x.fillRect(pad.l + i * gw + gw * 0.14 + j * bw, pad.t + H - bh, bw - 2, bh);
+          });
+          x.fillStyle = COL.muted;
+          x.fillText("s" + i, pad.l + i * gw + gw * 0.4, h - 18);
+        }
+        x.fillStyle = COL.ink;
+        x.fillRect(pad.l, h - 12, 10, 8);
+        x.fillStyle = COL.muted;
+        x.fillText("exact", pad.l + 14, h - 4);
+        x.fillStyle = COL.blue;
+        x.fillRect(pad.l + 60, h - 12, 10, 8);
+        x.fillStyle = COL.muted;
+        x.fillText("radial", pad.l + 74, h - 4);
+      }
+      function draw() {
+        const k = +$("k").value;
+        $("kv").textContent = k;
+        [...seg.children].forEach((b) => b.classList.toggle("on", +b.textContent === K));
+        const p = sweep(k);
+        bars(p);
+        $("rD").textContent = p.D.toFixed(3);
+        $("rKL").textContent = p.KL.toExponential(1);
+        $("rR").textContent = p.ratio01.toFixed(4);
+      }
+      $("k").addEventListener("input", draw);
+      window.addEventListener("resize", draw);
+      draw();
+    </script>
+  </body>
+</html>
