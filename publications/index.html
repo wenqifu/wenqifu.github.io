@@ -2,7 +2,7 @@
       const home = "/";
       let fragment = location.hash.slice(1);
       try { fragment = decodeURIComponent(fragment); } catch { /* Preserve malformed legacy queries as text. */ }
-      const paperIds = ["wen2026predictor","zhou2026srjepa","liu2026cowam","khedri2025pruning","pinsky2025pareto","wen2025grades","zhou2026ecrl","zeng2026pose","wen2025clicks","pinsky2026estimation"];
+      const paperIds = ["wen2026predictor","liu2026djepa","zhou2026srjepa","liu2026cowam","khedri2025pruning","pinsky2025pareto","wen2025grades","zhou2026ecrl","zeng2026pose","wen2025clicks","pinsky2026estimation"];
       paperIds.push("liu2026ocean");
       location.replace(fragment && paperIds.includes(fragment) ? home + "#" + fragment : home + (fragment ? "?q=" + encodeURIComponent(fragment) : "") + "#research");
     </script> </head> <body> <p>Publications are now on the homepage. <a href="/#research">View research and publications</a>.</p> </body> </html>
