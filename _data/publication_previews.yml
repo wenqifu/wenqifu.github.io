@@ -3,6 +3,11 @@ wen2026predictor:
     caption: Different updates can produce nearly identical predictions.
   - image: figures/wen2026predictor-1.png
     caption: Internal state distance grows while predictive KL falls.
+liu2026djepa:
+  - image: figures/liu2026djepa-1.png
+    caption: Closer in prediction can still be worse in action.
+  - image: figures/liu2026djepa-2.png
+    caption: Candidate futures are compared together to align decisions.
 zhou2026srjepa:
   - image: figures/zhou2026srjepa-1.png
     caption: Query a missing object using its surrounding 3D scene.
