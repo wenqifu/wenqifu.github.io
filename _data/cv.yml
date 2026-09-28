@@ -3,7 +3,7 @@ cv:
   label: Research Assistant
   email: qfwen@bu.edu
   location: Shanghai, China
-  summary: Research Assistant in Prof. Xi Lin's group at Shanghai Jiao Tong University; previously Boston University ML Group. Efficient and reliable training of large models, LLM fine-tuning, and reinforcement learning.
+  summary: Research Assistant at Shanghai Jiao Tong University. Efficient and reliable training of large models, LLM fine-tuning, and reinforcement learning.
 
   sections:
     Education:
@@ -24,7 +24,7 @@ cv:
         end_date: 2023
 
     Experience:
-      - company: Shanghai Jiao Tong University, Prof. Xi Lin's Group
+      - company: Shanghai Jiao Tong University
         position: Research Assistant
         location: Shanghai, China
         start_date: 2026-04
@@ -32,7 +32,7 @@ cv:
         highlights:
           - "Advisor: Prof. Xi Lin."
 
-      - company: Boston University, ML Group
+      - company: Boston University, Department of Computer Science
         position: Researcher
         location: Boston, MA
         start_date: 2025-05
@@ -41,7 +41,7 @@ cv:
           - "Lead author on GradES [C.1]: gradient-based per-matrix early stopping; 1.70–1.77× faster full-parameter fine-tuning at neutral accuracy; preprint on arXiv."
           - "Co-first author on OceanEnv [C.2]: unified marine-robotics simulation environment; submitted to AAAI 2027."
 
-      - company: Boston University, ML Group
+      - company: Boston University, Department of Computer Science
         position: Graduate Research Assistant
         location: Boston, MA
         start_date: 2023-09

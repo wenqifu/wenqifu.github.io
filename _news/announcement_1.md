@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Started as Researcher at Boston University ML Group.
+Started as Researcher in the Department of Computer Science at Boston University.
