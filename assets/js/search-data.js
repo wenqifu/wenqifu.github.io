@@ -50,8 +50,8 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-started-as-researcher-at-boston-university-ml-group",
-          title: 'Started as Researcher at Boston University ML Group.',
+            },},{id: "news-started-as-researcher-in-the-department-of-computer-science-at-boston-university",
+          title: 'Started as Researcher in the Department of Computer Science at Boston University.',
           description: "",
           section: "News",},{id: "news-paper-estimation-of-distribution-parameters-accepted-at-statistical-papers-springer-jcr-q2",
           title: 'Paper “Estimation of Distribution Parameters” accepted at Statistical Papers (Springer, JCR Q2).',
@@ -65,8 +65,8 @@ ninja.data = [{
           section: "News",},{id: "news-paper-estimation-of-distribution-parameters-published-in-statistical-papers-springer-vol-67-article-31",
           title: 'Paper “Estimation of Distribution Parameters” published in Statistical Papers (Springer), Vol. 67, Article...',
           description: "",
-          section: "News",},{id: "news-joined-prof-xi-lin-s-group-at-shanghai-jiao-tong-university-as-a-research-assistant",
-          title: 'Joined Prof. Xi Lin’s group at Shanghai Jiao Tong University as a Research...',
+          section: "News",},{id: "news-joined-shanghai-jiao-tong-university-as-a-research-assistant",
+          title: 'Joined Shanghai Jiao Tong University as a Research Assistant.',
           description: "",
           section: "News",},{id: "news-",
           title: '',
