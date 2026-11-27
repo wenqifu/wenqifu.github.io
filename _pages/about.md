@@ -1,45 +1,12 @@
 ---
 layout: about
-title: about
+title: About
 permalink: /
-subtitle: >-
-  Research Assistant,
-  <a href="https://en.sjtu.edu.cn/">Shanghai Jiao Tong University</a>
-
-profile:
-  align: right
-  image: prof_pic.jpg
-  image_circular: false
-  more_info: >
-    <p>qfwen@bu.edu</p>
-    <p>Shanghai Jiao Tong University</p>
-    <p>Shanghai, China</p>
-
-selected_papers: true
-social: true
-
-announcements:
-  enabled: true
-  scrollable: false
-  limit: 5
-
-latest_posts:
-  enabled: false
+subtitle: Research Assistant, Shanghai Jiao Tong University
 ---
 
-I am a Research Assistant at [Shanghai Jiao Tong University](https://en.sjtu.edu.cn/). Previously I was a researcher in the [Department of Computer Science](https://www.bu.edu/cs/) at Boston University, advised by [Prof. Reza Rawassizadeh](https://www.bu.edu/cs/profiles/reza-rawassizadeh/). I completed my M.S. in Computer Science at BU and my B.S. in Mathematics at [NYU Shanghai](https://shanghai.nyu.edu/).
+I study **world models and model-based reinforcement learning**, alongside efficient training and fine-tuning of large language models.
 
-My research centers on **efficient and reliable training of large models**, viewed through a stochastic-process / training-dynamics lens. [GradES](https://arxiv.org/abs/2509.01842) speeds up full-parameter fine-tuning by 1.70–1.77× at neutral accuracy by selectively freezing transformer components at convergence. I have a strong mathematical background in measure-theoretic probability and stochastic processes.
+I am a Research Assistant at [Shanghai Jiao Tong University](https://en.sjtu.edu.cn/). Previously, I worked in [Boston University's Department of Computer Science](https://www.bu.edu/cs/), advised by [Prof. Reza Rawassizadeh](https://www.bu.edu/cs/profiles/reza-rawassizadeh/). I hold an M.S. in Computer Science from BU and a B.S. in Mathematics from NYU Shanghai.
 
-I am a reviewer for ICML 2026 and NeurIPS 2026. I am currently applying to PhD programs for Fall 2027.
-
-Outside of my research, I enjoy playing basketball, hiking and playing rimworld.
-
-Feel free to [reach out](mailto:qfwen@bu.edu) if you'd like to chat about research or collaboration!
-
-<!-- CV PDFs will be added soon: [CV (English)](/assets/pdf/Research_CV_EN.pdf) | [CV (中文)](/assets/pdf/Research_CV_ZH.pdf) -->
-
-{% comment %}
-ECRL website mention paused by Danny, 2026-09-13, pending a new version.
-In **reinforcement learning**, my recent work (ECRL) started as an epistemic exploration method and ended up revealing that ensemble variance functions as a controllable regularizer.
-{% endcomment %}
+<p class="availability">Applying to PhD programs for Fall 2027.</p>

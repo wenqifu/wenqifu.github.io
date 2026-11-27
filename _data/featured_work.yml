@@ -1,0 +1,61 @@
+- id: wen2026predictor
+  title: How Wrong Can a Good Predictor Be? Diverging Updates with Vanishing Predictive KL
+  topic: Learning dynamics
+  description: Nearly identical predictions can hide diverging internal updates. A closer look at what predictive accuracy leaves unresolved.
+  image: figures/wen2026predictor-2.png
+  url: /showcase/expressivity-gap/
+  link_label: Explore the project
+  featured: true
+- id: wen2025grades
+  title: "GradES: Significantly Faster Training in Transformers with Gradient-Based Early Stopping"
+  topic: Efficient training
+  description: Freeze converged transformer components while the rest keep learning. Faster full-parameter fine-tuning at neutral accuracy.
+  image: figures/wen2025grades-1.png
+  url: /projects/grades/
+  link_label: Explore the project
+  featured: true
+- id: liu2026djepa
+  title: "D-JEPA: A Decision-Aligned Latent World Model"
+  topic: World models
+  description: Align latent predictions with decisions by comparing candidate futures together.
+  image: figures/liu2026djepa-1.png
+  url: https://nebulis-lab.com/D-JEPA/
+  link_label: Project website
+  featured: true
+- id: liu2026cowam
+  title: "CoWAM: Coordination Contracts for Selective Policy Intervention with WAMs"
+  topic: Robot coordination
+  description: Coordination contracts for selective policy intervention in collaborative manipulation.
+  image: figures/liu2026cowam-1.png
+  url: https://arxiv.org/abs/2608.02578
+  link_label: Read the paper
+- id: zhou2026srjepa
+  title: "Beyond the Visible: Contextual Object Inference with SR-JEPA"
+  topic: 3D representation learning
+  description: Learn predictive latent state from the context and structure of 3D scenes.
+  image: figures/zhou2026srjepa-1.png
+  url: /publications/#zhou2026srjepa
+  link_label: Publication details
+- id: liu2026ocean
+  title: "One Ocean, All Tasks: A Holistic Simulation Environment for Marine Robotics"
+  topic: Marine robotics
+  description: A unified simulation environment combining ocean data and physics for marine robotics.
+  image: demos/oceanenv-poster.webp
+  url: /projects/oceanenv/
+  link_label: Explore the project
+- id: wen2025clicks
+  title: "From Clicks to Conversations: Evaluating the Effectiveness of Conversational Agents in Statistical Analysis"
+  topic: Human–computer interaction
+  description: A study with 51 participants comparing conversational agents and traditional interfaces for statistical analysis.
+  image: figures/statz-journal-cover.jpg
+  url: https://doi.org/10.1080/10447318.2025.2561760
+  link_label: Read the journal article
+  featured: true
+- id: pinsky2026estimation
+  title: Estimation of Distribution Parameters by Mean Absolute Deviations of a Truncated Distribution Using Quantile Functions
+  topic: Statistical Papers · Parameter estimation
+  description: Estimate parameters of truncated distributions using mean absolute deviations and quantile functions, including distributions without finite moments.
+  image: figures/statistical-papers-title.png
+  url: /assets/html/truncation-demo/
+  link_label: Explore the interactive demo
+  featured: true

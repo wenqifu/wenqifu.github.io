@@ -78,8 +78,8 @@ def audit(root: Path, site: Path | None = None, validate_images: bool = False) -
     entries = bib_entries(public_path)
     for key in sorted(public):
         has_legacy_preview = re.search(r"^\s*preview\s*=", entries[key], re.MULTILINE) is not None
-        if key not in metadata_keys and not has_legacy_preview:
-            failures.append(f"{key}: no preview metadata or legacy preview")
+        # Text-only publications need no fabricated preview asset.
+        # Referenced preview assets are validated below.
 
     preview_root = root / "assets/img/publication_preview"
     image_inputs: dict[Path, list[Path]] = {}
@@ -111,17 +111,17 @@ def audit(root: Path, site: Path | None = None, validate_images: bool = False) -
         failures.append("combined demo animations exceed 1.3 MB")
 
     if site is not None:
-        index = site / "index.html"
+        index = site / "publications/index.html"
         if not index.is_file():
-            failures.append(f"built homepage missing: {index}")
+            failures.append(f"built publications page missing: {index}")
         else:
             html = index.read_text(encoding="utf-8")
             rendered = re.findall(r'id="([^"]+)"\s+class="publication-body"', html)
             if set(rendered) != public or len(rendered) != len(public):
-                failures.append(f"built homepage inventory differs: expected {sorted(public)}, found {rendered}")
+                failures.append(f"built publications page inventory differs: expected {sorted(public)}, found {rendered}")
             for key in sorted(paused):
                 if f'id="{key}"' in html:
-                    failures.append(f"{key}: paused entry rendered on homepage")
+                    failures.append(f"{key}: paused entry rendered on publications page")
         if validate_images:
             generated = [
                 path

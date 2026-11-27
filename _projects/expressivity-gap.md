@@ -1,6 +1,6 @@
 ---
 layout: page
-title: How Wrong Can a Good Predictor Be?
+title: "How Wrong Can a Good Predictor Be? Diverging Updates with Vanishing Predictive KL"
 description: Diverging updates with vanishing predictive KL for every fixed finite hidden-state count.
 img: /assets/img/expressivity-gap-teaser.png
 importance: 1

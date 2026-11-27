@@ -1,7 +1,7 @@
 ---
 ---
-<div class="row publication-row{% unless site.enable_publication_thumbnails %} publication-row-text-only{% endunless %}">
-  {% if site.enable_publication_thumbnails %}
+<div class="row publication-row{% if page.compact_publications or site.enable_publication_thumbnails == false %} publication-row-text-only{% endif %}">
+  {% if site.enable_publication_thumbnails and page.compact_publications != true %}
     <div class="publication-media abbr">
       {%- if entry.abbr -%}
         {%- if site.data.venues[entry.abbr] -%}

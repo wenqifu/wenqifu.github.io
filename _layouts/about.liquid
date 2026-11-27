@@ -2,84 +2,51 @@
 layout: default
 ---
 <div class="post about-page">
-  <header class="post-header">
-    <h1 class="post-title">
-      {% if site.title == 'blank' %}
-        <span class="font-weight-bold">{{ site.first_name }}</span> {{ site.middle_name }}
-        {{ site.last_name }}
-      {% else %}
-        {{ site.title }}
-      {% endif %}
-    </h1>
-    <p class="desc">{{ page.subtitle }}</p>
-  </header>
-
-  <article>
-    <div class="about-intro">
-      {% if page.profile %}
-        <div class="profile">
-          {% if page.profile.image %}
-            {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
-            {% if page.profile.image_circular %}
-              {% assign profile_image_class = 'img-fluid rounded-circle' %}
-            {% else %}
-              {% assign profile_image_class = 'img-fluid rounded' %}
-            {% endif %}
-            {% assign sizes = '(min-width: 768px) 240px, 140px' %}
-            {%
-              include figure.liquid loading="eager" path=profile_image_path class=profile_image_class sizes=sizes alt=site.first_name
-              cache_bust=true
-            %}
-          {% endif %}
-          {% if page.profile.more_info %}
-            <div class="more-info">{{ page.profile.more_info }}</div>
-          {% endif %}
-        </div>
-      {% endif %}
-
-      <div class="about-bio">
-        {{ content }}
-        <!-- Social -->
-        {% if page.social %}
-          <div class="social">
-            <div class="contact-icons">{% social_links %}</div>
-
-            <div class="contact-note">{{ site.contact_note }}</div>
-          </div>
-        {% endif %}
+  <section class="profile-hero" aria-labelledby="intro-title">
+    <div class="hero-copy">
+      <p class="eyebrow">Machine learning · Research</p>
+      <h1 id="intro-title">Qifu <span>(Danny)</span> Wen<span class="name-dot">.</span></h1>
+      <p class="hero-role">{{ page.subtitle }}</p>
+      <div class="hero-bio">{{ content }}</div>
+      <div class="hero-links">
+        <a class="primary-link" href="{{ '/cv/' | relative_url }}">View CV <span aria-hidden="true">↗</span></a>
+        <a href="mailto:qfwen@bu.edu">Email</a>
+        <a href="https://scholar.google.com/citations?user=-YHHQvkAAAAJ">Scholar</a>
+        <a href="https://github.com/wenqifu">GitHub</a>
       </div>
     </div>
-
-    <section id="research" aria-labelledby="research-title">
-      <h2 id="research-title" class="about-section-title">Research &amp; publications</h2>
-      <p class="research-intro">All papers and preprints, newest year first. Explore a preview or open the paper.</p>
-      <div class="research-filter" hidden>
-        <label for="research-search">Find a paper</label>
-        <input id="research-search" type="search" placeholder="Title, author or topic" autocomplete="off">
-        <span id="research-count" role="status" aria-live="polite"></span>
+    <figure class="hero-portrait">
+      <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Qifu Wen" width="320" height="380" loading="eager">
+      <figcaption>Shanghai, China</figcaption>
+    </figure>
+  </section>
+  <section id="research" class="selected-work" aria-labelledby="selected-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">A few things I've worked on</p>
+        <h2 id="selected-title">Selected publications</h2>
       </div>
-      <p id="research-empty" hidden>No papers match. Try another title, author or topic.</p>
-      {% include selected_papers.liquid %}
-    </section>
-
-    <!-- News -->
-    {% if page.announcements and page.announcements.enabled %}
-      <h2 class="about-section-title">
-        <a href="{{ '/news/' | relative_url }}" style="color: inherit">news</a>
-      </h2>
-      {% include news.liquid limit=true %}
-    {% endif %}
-
-    <!-- Latest posts -->
-    {% if page.latest_posts and page.latest_posts.enabled %}
-      <h2 class="about-section-title">
-        <a href="{{ '/blog/' | relative_url }}" style="color: inherit">latest posts</a>
-      </h2>
-      {% include latest_posts.liquid %}
-    {% endif %}
-
-    {% if site.newsletter and site.newsletter.enabled and site.footer_fixed %}
-      {% include newsletter.liquid center=true %}
-    {% endif %}
-  </article>
+      <a class="text-link" href="{{ '/publications/' | relative_url }}">All publications <span aria-hidden="true">↗</span></a>
+    </div>
+    {% assign featured = site.data.featured_work | where: 'featured', true %}
+    {% for work in featured -%}
+      {%- include work_card.liquid work=work -%}
+    {%- endfor %}
+    <div class="research-bottom">
+      <p>More work in robotics, representation learning, and statistics.</p>
+      <a class="text-link" href="{{ '/projects/' | relative_url }}">Explore all projects <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+  <section class="home-note" aria-labelledby="beyond-title">
+    <p class="eyebrow" id="beyond-title">Beyond research</p>
+    <p>I enjoy basketball, hiking, and RimWorld. Always happy to talk about research or collaboration.</p>
+    <a class="text-link" href="mailto:qfwen@bu.edu">qfwen@bu.edu <span aria-hidden="true">↗</span></a>
+  </section>
 </div>
+<script>
+  // Preserve previously shared homepage paper anchors and search links.
+  const legacyPaper = [{% for key in site.data.publication_previews %}{{ key[0] | jsonify }},{% endfor %}"liu2026ocean"];
+  if (legacyPaper.includes(location.hash.slice(1)) || new URLSearchParams(location.search).has("q")) {
+    location.replace({{ '/publications/' | relative_url | jsonify }} + location.search + location.hash);
+  }
+</script>

@@ -1,0 +1,26 @@
+<article class="work-card">
+  <a
+    class="work-image{% if include.work.venue_thumbnail %} work-venue{% endif %}"
+    href="{{ include.work.url | relative_url }}"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    {% if include.work.venue_thumbnail %}
+      <span class="work-venue-name">{{ include.work.venue_thumbnail }}</span>
+      <span class="work-venue-publisher">{{ include.work.venue_publisher }}</span>
+    {% else %}
+      <img src="{{ include.work.image | prepend: '/assets/img/publication_preview/' | relative_url }}" alt="" loading="lazy" width="640" height="420">
+    {% endif %}
+  </a>
+  <div class="work-copy">
+    <p class="eyebrow">{{ include.work.topic }}</p>
+    <h3>
+      <a href="{{ include.work.url | relative_url }}">{{ include.work.title }}</a>
+    </h3>
+    <p>{{ include.work.description }}</p>
+    <a class="text-link" href="{{ include.work.url | relative_url }}">
+      {{- include.work.link_label }}
+      <span aria-hidden="true">↗</span></a
+    >
+  </div>
+</article>

@@ -3,7 +3,7 @@ cv:
   label: Research Assistant
   email: qfwen@bu.edu
   location: Shanghai, China
-  summary: Research Assistant at Shanghai Jiao Tong University. Efficient and reliable training of large models, LLM fine-tuning, and reinforcement learning.
+  summary: Research Assistant at Shanghai Jiao Tong University. World models and model-based reinforcement learning; efficient training and fine-tuning of large language models.
 
   sections:
     Education:
@@ -11,8 +11,8 @@ cv:
         location: Boston, MA
         area: Computer Science
         studyType: M.S.
-        start_date: 2023
-        end_date: 2025
+        start_date: 2023-09
+        end_date: 2025-01
         highlights:
           - "Advisor: Prof. Reza Rawassizadeh"
 
@@ -65,5 +65,4 @@ cv:
         summary: "AI Intelligent Motion Detection System | Top 20"
 
     "Core Courses":
-      - summary: "Overall M.S. GPA 3.83/4.0; core coursework 4.0/4.0; Top 5% in major"
       - courses: "Stochastic Processes, Stochastic PDEs, Algorithms, Machine Learning, Statistical Machine Learning, Advanced Machine Learning, Generative AI, Operating Systems, Database Systems, Theory of Computation, Software Engineering"

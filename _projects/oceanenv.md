@@ -1,6 +1,6 @@
 ---
 layout: page
-title: OceanEnv
+title: "One Ocean, All Tasks: A Holistic Simulation Environment for Marine Robotics"
 description: A unified marine-robotics simulation environment integrating bathymetry, ocean physics, biodiversity, and pollution data for 3-DOF/6-DOF sim-to-real training.
 img:
 importance: 2
