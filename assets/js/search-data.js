@@ -4,48 +4,33 @@ const ninja = document.querySelector('ninja-keys');
 // add the home and posts menu items
 ninja.data = [{
     id: "nav-about",
-    title: "about",
+    title: "About",
     section: "Navigation",
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "nav-projects",
-          title: "projects",
-          description: "Research projects and tools I&#39;ve developed.",
+  },{id: "nav-publications",
+          title: "Publications",
+          description: "Papers and preprints in machine learning, robotics, and statistics.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-projects",
+          title: "Projects",
+          description: "A closer look at the questions, methods, and systems behind the papers.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
           },
         },{id: "nav-cv",
-          title: "cv",
-          description: "Updated September 2026.",
+          title: "CV",
+          description: "Education, research experience, and publications.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-google-gemini-updates-flash-1-5-gemma-2-and-project-astra",
-        
-          title: 'Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
-        
-        description: "We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.",
-        section: "Posts",
-        handler: () => {
-          
-            window.open("https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/", "_blank");
-          
-        },
-      },{id: "post-displaying-external-posts-on-your-al-folio-blog",
-        
-          title: 'Displaying External Posts on Your al-folio Blog <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
-        
-        description: "",
-        section: "Posts",
-        handler: () => {
-          
-            window.open("https://medium.com/@al-folio/displaying-external-posts-on-your-al-folio-blog-b60a1d241a0a?source=rss-17feae71c3c4------2", "_blank");
-          
-        },
-      },{id: "books-the-godfather",
+        },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {
@@ -74,13 +59,13 @@ ninja.data = [{
           section: "News",},{id: "news-oceanenv-submitted-to-aaai-2027",
           title: 'OceanEnv submitted to AAAI 2027.',
           description: "",
-          section: "News",},{id: "projects-how-wrong-can-a-good-predictor-be",
-          title: 'How Wrong Can a Good Predictor Be?',
+          section: "News",},{id: "projects-how-wrong-can-a-good-predictor-be-diverging-updates-with-vanishing-predictive-kl",
+          title: 'How Wrong Can a Good Predictor Be? Diverging Updates with Vanishing Predictive KL...',
           description: "Diverging updates with vanishing predictive KL for every fixed finite hidden-state count.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/expressivity-gap/";
-            },},{id: "projects-grades",
-          title: 'GradES',
+            },},{id: "projects-grades-significantly-faster-training-in-transformers-with-gradient-based-early-stopping",
+          title: 'GradES: Significantly Faster Training in Transformers with Gradient-Based Early Stopping',
           description: "Gradient-based early stopping for efficient transformer fine-tuning. Achieves 1.70–1.77× faster full-parameter fine-tuning at neutral accuracy on Qwen3-0.6B, Llama-3.1-8B, and Qwen3-14B.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/grades/";
@@ -89,8 +74,8 @@ ninja.data = [{
           description: "Multi-agent LLM system (v6.x) with Claude as orchestrator, five-mode operation, and structured state management. Built Paper Forge academic writing system on top.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/llm_orchestra/";
-            },},{id: "projects-oceanenv",
-          title: 'OceanEnv',
+            },},{id: "projects-one-ocean-all-tasks-a-holistic-simulation-environment-for-marine-robotics",
+          title: 'One Ocean, All Tasks: A Holistic Simulation Environment for Marine Robotics',
           description: "A unified marine-robotics simulation environment integrating bathymetry, ocean physics, biodiversity, and pollution data for 3-DOF/6-DOF sim-to-real training.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/oceanenv/";
