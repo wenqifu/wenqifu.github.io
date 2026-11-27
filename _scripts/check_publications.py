@@ -111,12 +111,12 @@ def audit(root: Path, site: Path | None = None, validate_images: bool = False) -
         failures.append("combined demo animations exceed 1.3 MB")
 
     if site is not None:
-        index = site / "publications/index.html"
+        index = site / "index.html"
         if not index.is_file():
-            failures.append(f"built publications page missing: {index}")
+            failures.append(f"built homepage missing: {index}")
         else:
             html = index.read_text(encoding="utf-8")
-            rendered = re.findall(r'id="([^"]+)"\s+class="publication-body"', html)
+            rendered = re.findall(r'id="([^"]+)"\s+class="research-row[^"]*"', html)
             if set(rendered) != public or len(rendered) != len(public):
                 failures.append(f"built publications page inventory differs: expected {sorted(public)}, found {rendered}")
             for key in sorted(paused):
