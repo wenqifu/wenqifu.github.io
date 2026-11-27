@@ -1,0 +1,84 @@
+---
+---
+{% assign work = site.data.featured_work | where: 'id', entry.key | first %}
+{% assign thumb = work.image %}
+{% if entry.key == 'khedri2025pruning' %}{% assign thumb = 'figures/khedri2025pruning-1.png' %}{% endif %}
+{% if entry.key == 'pinsky2025pareto' %}{% assign thumb = 'figures/pinsky2025pareto-1.png' %}{% endif %}
+<article
+  id="{{ entry.key }}"
+  class="research-row{% if work.featured %} research-highlight{% endif %}{% unless thumb %} research-no-image{% endunless %}"
+>
+  {% if thumb -%}
+    <img
+      class="research-thumb"
+      src="{{ thumb | prepend: '/assets/img/publication_preview/' | relative_url }}"
+      alt="{{ entry.title | escape }} — research preview"
+      width="200"
+      height="150"
+      loading="lazy"
+    >
+  {%- endif %}
+  <div class="research-copy">
+    <h3>{{ entry.title }}</h3>
+    <p class="research-authors">
+      {% for author in entry.author_array -%}
+        {%- unless forloop.first %}, {% endunless -%}
+        {%- if author.last == 'Wen' and author.first == 'Qifu' -%}
+          <strong>
+            {{- author.first }}
+            {{ author.last -}}
+          </strong>
+        {%- else -%}
+          {{- author.first }}
+          {{ author.last -}}
+        {%- endif -%}
+        {%- if entry.key == 'wen2026predictor'
+          or entry.key == 'liu2026ocean'
+          or entry.key == 'pinsky2026estimation'
+          or entry.key == 'pinsky2025pareto'
+        -%}
+          {%- if forloop.index <= 2 -%}
+            <sup>*</sup>
+          {%- endif -%}
+        {%- elsif entry.key == 'zhou2026srjepa' -%}
+          {%- if forloop.index <= 3 -%}
+            <sup>*</sup>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor %}
+    </p>
+    <p class="research-venue">
+      {% if entry.journal -%}
+        {{- entry.journal }} · {{ entry.year -}}
+        {%- if entry.key == 'wen2025clicks' %}
+          <span>(online 2025)</span>
+        {%- endif -%}
+      {%- else -%}
+        {{- entry.note | split: ';' | first -}}
+        {%- unless entry.note contains 'Submitted' %} · {{ entry.year }}{% endunless -%}
+      {%- endif %}
+    </p>
+    {% if work.description %}
+      <p class="research-summary">{{ work.description }}</p>
+    {% elsif entry.key == 'wen2026secondchance' %}
+      <p class="research-summary">Monitor, ground, and repair vision-language-action policies.</p>
+    {% elsif entry.key == 'khedri2025pruning' %}
+      <p class="research-summary">Examining how pruning and quantization affect graph neural networks.</p>
+    {% elsif entry.key == 'pinsky2025pareto' %}
+      <p class="research-summary">Interpret the Pareto index and Gini coefficient through mean absolute deviations and quantile functions.</p>
+    {% endif %}
+    <div class="research-links">
+      {% if entry.doi -%}
+        <a href="https://doi.org/{{ entry.doi }}">Paper</a>
+      {%- elsif entry.arxiv -%}
+        <a href="https://arxiv.org/abs/{{ entry.arxiv }}">Paper</a>
+      {%- endif -%}
+      {%- if entry.code -%}
+        <a href="{{ entry.code }}">Code</a>
+      {%- endif -%}
+      {%- if entry.website contains '://' -%}
+        <a href="{{ entry.website }}">Website</a>
+      {%- endif %}
+    </div>
+  </div>
+</article>

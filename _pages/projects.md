@@ -1,17 +1,7 @@
 ---
-layout: page
-title: Projects
+layout: null
 permalink: /projects/
-description: A closer look at the questions, methods, and systems behind the papers.
-nav: true
-nav_order: 3
+nav: false
 ---
 
-<div class="project-index">
-  {% for work in site.data.featured_work %}{% include work_card.liquid work=work %}{% endfor %}
-</div>
-<div class="tool-note">
-  <p class="eyebrow">Research tools</p>
-  <h2><a href="{{ '/projects/llm_orchestra/' | relative_url }}">LLM Orchestra <span aria-hidden="true">↗</span></a></h2>
-  <p>A multi-agent workflow system for research and academic writing.</p>
-</div>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/#research"><title>Qifu Wen</title></head><body><a href="/#research">Continue</a><script>location.replace('/#research' .split('#')[0] + (location.hash || '#research'));</script></body></html>
