@@ -612,3 +612,14 @@ body.single-page {
   margin: 30px 0 12px;
   color: var(--global-text-color-light);
 }
+
+.research-figure {
+  margin: 0;
+  align-self: center;
+}
+.research-figure figcaption {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--global-text-color-light);
+  margin-top: 6px;
+}

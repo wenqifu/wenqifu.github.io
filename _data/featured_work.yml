@@ -33,7 +33,7 @@
   title: "Beyond the Visible: Contextual Object Inference with SR-JEPA"
   topic: 3D representation learning
   description: Learn predictive latent state from the context and structure of 3D scenes.
-  image: figures/zhou2026srjepa-1.png
+  image: figures/srjepa-figure1.png
   url: /publications/#zhou2026srjepa
   link_label: Publication details
 - id: liu2026ocean
@@ -59,3 +59,9 @@
   url: /assets/html/truncation-demo/
   link_label: Explore the interactive demo
   featured: true
+
+- id: wen2026secondchance
+  title: "Same Policy, Second Chance: Monitor, Ground, and Repair for Vision-Language-Action Models"
+  image: figures/same-policy-figure1.png
+  image_note: "Figure 1 · Illustrative artwork; historical results."
+  description: Monitor, ground, and repair vision-language-action policies.

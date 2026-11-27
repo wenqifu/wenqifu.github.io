@@ -9,14 +9,19 @@
   class="research-row{% if work.featured %} research-highlight{% endif %}{% unless thumb %} research-no-image{% endunless %}"
 >
   {% if thumb -%}
-    <img
-      class="research-thumb"
-      src="{{ thumb | prepend: '/assets/img/publication_preview/' | relative_url }}"
-      alt="{{ entry.title | escape }} — research preview"
-      width="200"
-      height="150"
-      loading="lazy"
-    >
+    <figure class="research-figure">
+      <img
+        class="research-thumb"
+        src="{{ thumb | prepend: '/assets/img/publication_preview/' | relative_url }}"
+        alt="{{ entry.title | escape }} — research preview"
+        width="200"
+        height="150"
+        loading="lazy"
+      >
+      {% if work.image_note %}
+        <figcaption>{{ work.image_note }}</figcaption>
+      {% endif %}
+    </figure>
   {%- endif %}
   <div class="research-copy">
     <h3>{{ entry.title }}</h3>
